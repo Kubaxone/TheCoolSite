@@ -2,55 +2,165 @@ hellos
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>lol.kubaxones.publicvm.com</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #1a1a1a, #4b0082);
-      color: #fff;
-      text-align: center;
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.2em;
-      animation: pulse 2s infinite;
-    }
-    p {
-      font-size: 1.2em;
-      color: #ccc;
-    }
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.8em;
-      color: #888;
-    }
-    @keyframes pulse {
-      0%, 100% { color: #ff69b4; }
-      50% { color: #00ffff; }
-    }
-    a {
-      color: #ff69b4;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      color: #00ffff;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lol.kubaxones.publicvm.com</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a1a, #4b0082);
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 3em;
+    margin-top: 30px;
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 5px #ff69b4, 0 0 10px #00ffff;
+  }
+
+  @keyframes pulse {
+    0%,100% { color: #ff69b4; text-shadow: 0 0 10px #ff69b4, 0 0 20px #00ffff; }
+    50% { color: #00ffff; text-shadow: 0 0 20px #00ffff,0 0 40px #ff69b4; }
+  }
+
+  p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #ccc;
+    margin: 20px;
+  }
+
+  a {
+    color: #ff69b4;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  a:hover { color: #00ffff; }
+
+  footer {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 0.8em;
+    color: #888;
+  }
+
+  .marquee {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 1.2em;
+    color: #ff69b4;
+    animation: scroll 15s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Video container */
+  .video-corner {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 250px;
+    height: 140px;
+    border: 2px solid #ff69b4;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    z-index: 10;
+  }
+  .video-corner iframe, .video-corner video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Floating shapes */
+  .shape {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    animation: float 12s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+  }
+
+  /* Physics box */
+  #physicsBox {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #ff69b4;
+    border-radius: 10px;
+    top: 100px;
+    left: 100px;
+  }
+</style>
 </head>
 <body>
-  <h1>✨ Welcome to the Mystery Zone ✨</h1>
-  <p>Exploring GitHub Pages, random vibes, and cool effects.<br>
-  Check out my <a href="https://github.com/kubaxone">GitHub</a> for more!</p>
-  <footer>© 2026 Kubaxone. All rights reserved.</footer>
+
+<h1>✨ Welcome to the Mystery Zone ✨</h1>
+
+<p>Exploring GitHub Pages, neon vibes, floating shapes, and physics fun!<br>
+Check out my <a href="https://github.com/kubaxone">GitHub</a> for more!</p>
+
+<div class="marquee">🚀 Neon vibes, floating shapes, and surprises await! 🌌 Stay tuned! 🚀</div>
+
+<!-- Floating shapes -->
+<div class="shape" style="left:10%; animation-duration:14s;"></div>
+<div class="shape" style="left:30%; animation-duration:18s;"></div>
+<div class="shape" style="left:50%; animation-duration:12s;"></div>
+<div class="shape" style="left:70%; animation-duration:16s;"></div>
+<div class="shape" style="left:90%; animation-duration:20s;"></div>
+
+<!-- Video corner: You can use YouTube or mp4 -->
+<div class="video-corner">
+  <!-- Example using YouTube embed -->
+  <iframe src="https://www.youtube.com/embed/PHGlG1xPUrk?autoplay=1&mute=1&loop=1&playlist=PHGlG1xPUrk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<!-- Physics box -->
+<div id="physicsBox"></div>
+
+<footer>© 2026 Kubaxone. All rights reserved.</footer>
+
+<script>
+  // Simple physics: bouncing box
+  const box = document.getElementById('physicsBox');
+  let posX = 100, posY = 100;
+  let velX = 3, velY = 2;
+  const boxWidth = 60, boxHeight = 60;
+
+  function updateBox() {
+    posX += velX;
+    posY += velY;
+
+    if(posX + boxWidth > window.innerWidth || posX < 0) velX *= -1;
+    if(posY + boxHeight > window.innerHeight || posY < 0) velY *= -1;
+
+    box.style.left = posX + 'px';
+    box.style.top = posY + 'px';
+
+    requestAnimationFrame(updateBox);
+  }
+
+  updateBox();
+</script>
+
 </body>
 </html>
