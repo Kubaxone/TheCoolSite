@@ -17,8 +17,6 @@
   --accent2: #c084fc;
   --text: #f0f0f0;
   --muted: #666;
-  --canvas-bg: #ffffff;
-  --radius: 12px;
   --font-ui: 'Outfit', sans-serif;
   --font-mono: 'Space Mono', monospace;
 }
@@ -33,7 +31,7 @@ body {
   color: var(--text);
 }
 
-/* ─── TOP BAR ─── */
+/* TOP BAR */
 #topbar {
   height: 52px;
   background: var(--panel);
@@ -41,10 +39,12 @@ body {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
   z-index: 200;
+  overflow-x: auto;
 }
+#topbar::-webkit-scrollbar { display: none; }
 
 #topbar .logo {
   font-family: var(--font-mono);
@@ -54,69 +54,54 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 0.05em;
-  margin-right: 8px;
+  margin-right: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+.sep { width: 1px; height: 24px; background: var(--border); margin: 0 2px; flex-shrink: 0; }
 
 .topbtn {
   height: 32px;
-  padding: 0 14px;
+  padding: 0 12px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--panel2);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   transition: all 0.15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
-
-.topbtn:hover {
-  background: #222;
-  border-color: #444;
-  transform: translateY(-1px);
-}
-
+.topbtn:hover { background: #222; border-color: #444; transform: translateY(-1px); }
 .topbtn.accent {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border: none;
-  color: #fff;
-  font-weight: 600;
+  border: none; color: #fff; font-weight: 600;
 }
-
-.topbtn.accent:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
+.topbtn.accent:hover { opacity: 0.9; transform: translateY(-1px); }
 .topbtn svg { flex-shrink: 0; }
+.spacer { flex: 1; min-width: 8px; }
 
-.spacer { flex: 1; }
+/* MAIN */
+#main { display: flex; flex: 1; overflow: hidden; }
 
-/* ─── MAIN AREA ─── */
-#main {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* ─── LEFT PANEL ─── */
+/* SIDEBAR */
 #sidebar {
-  width: 220px;
+  width: 210px;
   flex-shrink: 0;
   background: var(--panel);
   border-right: 1px solid var(--border);
   overflow-y: auto;
-  padding: 16px 12px;
+  padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .section-label {
@@ -125,54 +110,44 @@ body {
   letter-spacing: 0.12em;
   color: var(--muted);
   text-transform: uppercase;
-  padding: 12px 8px 6px;
+  padding: 10px 8px 5px;
 }
 
 .tool {
   width: 100%;
-  padding: 9px 12px;
+  padding: 8px 10px;
   border: 1px solid transparent;
   border-radius: 9px;
   background: transparent;
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   transition: all 0.15s;
 }
-
-.tool:hover {
-  background: var(--panel2);
-  border-color: var(--border);
-  transform: translateX(2px);
-}
-
-.tool svg { opacity: 0.7; flex-shrink: 0; }
-.tool:hover svg { opacity: 1; }
+.tool:hover { background: var(--panel2); border-color: var(--border); transform: translateX(2px); }
 
 .tool-icon {
-  width: 28px;
-  height: 28px;
+  width: 26px; height: 26px;
   border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 13px;
 }
-
 .icon-purple { background: rgba(124,92,252,0.15); color: var(--accent); }
 .icon-pink   { background: rgba(192,132,252,0.15); color: var(--accent2); }
-.icon-blue   { background: rgba(96,165,250,0.15); color: #60a5fa; }
-.icon-green  { background: rgba(52,211,153,0.15); color: #34d399; }
-.icon-orange { background: rgba(251,146,60,0.15); color: #fb923c; }
+.icon-blue   { background: rgba(96,165,250,0.15);  color: #60a5fa; }
+.icon-green  { background: rgba(52,211,153,0.15);  color: #34d399; }
+.icon-orange { background: rgba(251,146,60,0.15);  color: #fb923c; }
 .icon-red    { background: rgba(248,113,113,0.15); color: #f87171; }
+.icon-cyan   { background: rgba(34,211,238,0.15);  color: #22d3ee; }
+.icon-yellow { background: rgba(250,204,21,0.15);  color: #facc15; }
 
-/* ─── CANVAS AREA ─── */
+/* CANVAS AREA */
 #canvas-wrap {
   flex: 1;
   overflow: hidden;
@@ -188,12 +163,11 @@ body {
 #canvas {
   width: 1280px;
   height: 800px;
-  background: var(--canvas-bg);
+  background: #fff;
   position: relative;
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(0,0,0,0.6);
   border-radius: 4px;
-  transform-origin: center;
   flex-shrink: 0;
   background-image:
     linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
@@ -201,189 +175,221 @@ body {
   background-size: 20px 20px;
 }
 
-#canvas.phone-mode {
-  width: 390px;
-  height: 844px;
-  border-radius: 40px;
-  border: 10px solid #111;
-  box-shadow: 0 0 0 3px #333, 0 40px 80px rgba(0,0,0,0.8);
-}
-
-/* ─── ELEMENTS ON CANVAS ─── */
+/* ELEMENTS */
 .element {
   position: absolute;
   cursor: move;
   user-select: none;
-  min-width: 40px;
-  min-height: 24px;
-  resize: both;
-  overflow: auto;
 }
 
 .element.selected-el {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
-/* Default styles for elements added to canvas */
+/* Resize handles */
+.resize-handle {
+  position: absolute;
+  width: 11px; height: 11px;
+  background: white;
+  border: 2px solid #7c5cfc;
+  border-radius: 3px;
+  z-index: 9999;
+  pointer-events: all;
+}
+.rh-se { bottom: -6px; right: -6px; cursor: se-resize; }
+.rh-e  { top: 50%; right: -6px; transform: translateY(-50%); cursor: e-resize; }
+.rh-s  { left: 50%; bottom: -6px; transform: translateX(-50%); cursor: s-resize; }
+
 .el-text {
   font-family: var(--font-ui);
   font-size: 16px;
   color: #111;
   padding: 4px;
+  min-width: 60px;
+  min-height: 24px;
 }
 
+/* Buttons use div so native button dragging issues are avoided */
 .el-btn {
   padding: 10px 22px;
-  border: none;
   border-radius: 9px;
   background: linear-gradient(135deg, #7c5cfc, #c084fc);
   color: #fff;
   font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
   box-shadow: 0 4px 14px rgba(124,92,252,0.35);
-  transition: all 0.2s;
-  pointer-events: none; /* disable click while editing */
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .el-img {
   display: block;
-  max-width: 100%;
+  width: 200px;
+  height: auto;
 }
 
-/* ─── ANIMATIONS ─── */
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
+.el-box {
+  min-width: 80px;
+  min-height: 60px;
 }
+
+/* AURA EFFECTS */
+@keyframes aura-pulse {
+  0%,100% { box-shadow: 0 0 20px 6px rgba(124,92,252,0.5), 0 0 40px 12px rgba(192,132,252,0.3); }
+  50%      { box-shadow: 0 0 35px 14px rgba(124,92,252,0.8), 0 0 70px 24px rgba(192,132,252,0.5); }
+}
+.aura { animation: aura-pulse 2s infinite ease-in-out; }
+
+@keyframes aura-fire {
+  0%,100% { box-shadow: 0 0 20px 6px rgba(251,146,60,0.6), 0 0 40px 14px rgba(239,68,68,0.4); }
+  50%      { box-shadow: 0 0 40px 18px rgba(251,146,60,0.9), 0 0 80px 30px rgba(239,68,68,0.6); }
+}
+.aura-fire { animation: aura-fire 1.5s infinite ease-in-out; }
+
+@keyframes aura-ice {
+  0%,100% { box-shadow: 0 0 20px 6px rgba(96,165,250,0.5), 0 0 40px 12px rgba(34,211,238,0.3); }
+  50%      { box-shadow: 0 0 35px 14px rgba(96,165,250,0.8), 0 0 70px 24px rgba(34,211,238,0.5); }
+}
+.aura-ice { animation: aura-ice 2.5s infinite ease-in-out; }
+
+@keyframes aura-gold {
+  0%,100% { box-shadow: 0 0 20px 6px rgba(250,204,21,0.5), 0 0 40px 12px rgba(245,158,11,0.3); }
+  50%      { box-shadow: 0 0 35px 14px rgba(250,204,21,0.9), 0 0 70px 24px rgba(245,158,11,0.6); }
+}
+.aura-gold { animation: aura-gold 2s infinite ease-in-out; }
+
+/* BASE ANIMS */
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 .float { animation: float 2s infinite ease-in-out; }
+@keyframes pulse-a { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.pulse { animation: pulse-a 1.5s infinite ease-in-out; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.spin  { animation: spin 2s linear infinite; }
 
-@keyframes pulse {
-  0%,100% { opacity: 1; }
-  50%      { opacity: 0.5; }
-}
-.pulse { animation: pulse 1.5s infinite ease-in-out; }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-.spin { animation: spin 2s linear infinite; }
-
-/* ─── PREVIEW MODAL ─── */
+/* PREVIEW MODAL */
 #preview-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(10px);
   z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
 }
-
 #preview-modal.open { display: flex; }
-
-#preview-modal .modal-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.modal-toolbar { display: flex; align-items: center; gap: 10px; }
 #preview-frame-wrap {
-  position: relative;
-  background: #111;
-  border-radius: 16px;
+  background: #111; border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 40px 100px rgba(0,0,0,0.8);
 }
-
 #preview-frame-wrap.phone-wrap {
   border-radius: 44px;
   border: 10px solid #1a1a1a;
   box-shadow: 0 0 0 3px #333, 0 50px 100px rgba(0,0,0,0.9);
 }
+#preview-frame { border: none; display: block; background: white; }
 
-#preview-frame {
-  border: none;
-  display: block;
-  background: white;
+/* GIF MODAL */
+#gif-modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  align-items: center; justify-content: center;
 }
-
-/* ─── EXPORT PANEL ─── */
-#export-panel {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
-  z-index: 9998;
-  align-items: center;
-  justify-content: center;
-}
-
-#export-panel.open { display: flex; }
-
-#export-inner {
+#gif-modal.open { display: flex; }
+#gif-inner {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 24px;
-  width: 700px;
-  max-width: 95vw;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  padding: 22px;
+  width: 680px; max-width: 95vw;
+  display: flex; flex-direction: column; gap: 14px;
+  max-height: 90vh;
 }
-
-#export-inner h2 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-#export-inner textarea {
-  width: 100%;
-  height: 280px;
-  background: var(--bg);
+#gif-inner h2 { font-size: 15px; font-weight: 700; }
+.gif-tabs { display: flex; gap: 8px; }
+.gif-tab {
+  padding: 6px 14px; border-radius: 7px;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  color: #a5f3fc;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 14px;
-  resize: none;
-  outline: none;
+  background: var(--panel2); color: var(--muted);
+  font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
 }
+.gif-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+#gif-premade-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  overflow-y: auto; max-height: 360px;
+}
+#gif-premade-grid img {
+  width: 100%; aspect-ratio: 1; object-fit: cover;
+  border-radius: 8px; cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+}
+#gif-premade-grid img:hover { border-color: var(--accent); transform: scale(1.03); }
+#gif-upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+#gif-upload-area:hover { border-color: var(--accent); color: var(--text); }
+#gif-url-area { display: flex; gap: 8px; }
+#gif-url-input {
+  flex: 1; padding: 9px 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+  font-family: var(--font-ui); font-size: 13px; outline: none;
+}
+#gif-url-input:focus { border-color: var(--accent); }
+#gif-file-input { display: none; }
 
+/* EXPORT PANEL */
+#export-panel {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88); backdrop-filter: blur(10px);
+  z-index: 9998; align-items: center; justify-content: center;
+}
+#export-panel.open { display: flex; }
+#export-inner {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  width: 700px; max-width: 95vw;
+  display: flex; flex-direction: column; gap: 14px;
+}
+#export-inner h2 { font-size: 16px; font-weight: 700; }
+#export-inner textarea {
+  width: 100%; height: 280px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; color: #a5f3fc;
+  font-family: var(--font-mono); font-size: 12px;
+  padding: 14px; resize: none; outline: none;
+}
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
-/* ─── STATUS BAR ─── */
+/* STATUS BAR */
 #statusbar {
-  height: 26px;
-  background: var(--panel);
+  height: 26px; background: var(--panel);
   border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  gap: 16px;
-  font-size: 11px;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  flex-shrink: 0;
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 16px;
+  font-size: 11px; color: var(--muted);
+  font-family: var(--font-mono); flex-shrink: 0;
 }
-
 #status-el { color: var(--accent2); }
 #status-pos { margin-left: auto; }
 
-/* scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-
 </style>
 </head>
 <body>
@@ -393,130 +399,140 @@ body {
   <span class="logo">⬡ ULTRA BUILDER</span>
   <div class="sep"></div>
   <button class="topbtn" onclick="toggleGrid()">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
     Grid
   </button>
   <button class="topbtn" onclick="deleteSelected()">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
     Delete
   </button>
   <div class="sep"></div>
   <button class="topbtn" onclick="saveProject()">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
     Save
   </button>
   <button class="topbtn" onclick="loadProject()">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
     Load
   </button>
   <div class="spacer"></div>
   <button class="topbtn" onclick="openPreview('pc')">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
     Preview PC
   </button>
   <button class="topbtn" onclick="openPreview('phone')">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
     Preview Phone
   </button>
   <button class="topbtn accent" onclick="openExport()">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Export HTML
   </button>
 </div>
 
 <!-- MAIN -->
 <div id="main">
-
   <!-- SIDEBAR -->
   <div id="sidebar">
     <div class="section-label">Elements</div>
 
     <button class="tool" onclick="addText()">
       <span class="tool-icon icon-purple">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-      </span>
-      Text Block
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      </span>Text Block
     </button>
 
     <button class="tool" onclick="addHeading()">
       <span class="tool-icon icon-pink">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
-      </span>
-      Heading
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+      </span>Heading
     </button>
 
     <button class="tool" onclick="addButton()">
       <span class="tool-icon icon-blue">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="4"/></svg>
-      </span>
-      Button
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="4"/></svg>
+      </span>Button
     </button>
 
-    <button class="tool" onclick="addImage()">
+    <button class="tool" onclick="openGifModal()">
       <span class="tool-icon icon-green">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      </span>
-      Image / GIF
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </span>Image / GIF
     </button>
 
     <button class="tool" onclick="addBox()">
       <span class="tool-icon icon-orange">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
-      </span>
-      Box / Card
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+      </span>Box / Card
     </button>
 
     <div class="section-label">Style</div>
 
     <button class="tool" onclick="setTextColor()">
       <span class="tool-icon icon-pink">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-      </span>
-      Text Color
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 20h6M12 4v16M5 4h14"/></svg>
+      </span>Text Color
     </button>
 
     <button class="tool" onclick="setBgColor()">
       <span class="tool-icon icon-orange">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 20h20"/><path d="M6 20V10l6-8 6 8v10"/></svg>
-      </span>
-      Background Color
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+      </span>Background
     </button>
 
     <button class="tool" onclick="setFontSize()">
       <span class="tool-icon icon-blue">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-      </span>
-      Font Size
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      </span>Font Size
+    </button>
+
+    <button class="tool" onclick="setSize()">
+      <span class="tool-icon icon-cyan">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      </span>Set Size
+    </button>
+
+    <div class="section-label">Aura Effects</div>
+
+    <button class="tool" onclick="setAura('aura')">
+      <span class="tool-icon icon-purple">✨</span>Purple Aura
+    </button>
+    <button class="tool" onclick="setAura('aura-fire')">
+      <span class="tool-icon icon-orange">🔥</span>Fire Aura
+    </button>
+    <button class="tool" onclick="setAura('aura-ice')">
+      <span class="tool-icon icon-blue">❄️</span>Ice Aura
+    </button>
+    <button class="tool" onclick="setAura('aura-gold')">
+      <span class="tool-icon icon-yellow">⚡</span>Gold Aura
+    </button>
+    <button class="tool" onclick="clearAura()">
+      <span class="tool-icon icon-red">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>Remove Aura
     </button>
 
     <div class="section-label">Animation</div>
 
     <button class="tool" onclick="setAnim('float')">
       <span class="tool-icon icon-purple">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l4 8H8z"/><path d="M12 21v-6"/></svg>
-      </span>
-      Float
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l4 8H8z"/><path d="M12 21v-6"/></svg>
+      </span>Float
     </button>
-
     <button class="tool" onclick="setAnim('pulse')">
       <span class="tool-icon icon-pink">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      </span>
-      Pulse
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </span>Pulse
     </button>
-
     <button class="tool" onclick="setAnim('spin')">
       <span class="tool-icon icon-green">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-      </span>
-      Spin
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+      </span>Spin
     </button>
-
     <button class="tool" onclick="clearAnim()">
       <span class="tool-icon icon-red">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </span>
-      Remove Anim
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>Remove Anim
     </button>
   </div>
 
@@ -524,12 +540,12 @@ body {
   <div id="canvas-wrap">
     <div id="canvas"></div>
   </div>
-
 </div>
 
 <!-- STATUS BAR -->
 <div id="statusbar">
   <span>Selected: <span id="status-el">none</span></span>
+  <span id="status-size"></span>
   <span id="status-pos"></span>
 </div>
 
@@ -542,6 +558,38 @@ body {
   </div>
   <div id="preview-frame-wrap">
     <iframe id="preview-frame" scrolling="yes"></iframe>
+  </div>
+</div>
+
+<!-- GIF MODAL -->
+<div id="gif-modal">
+  <div id="gif-inner">
+    <h2>🎨 Add Image / GIF</h2>
+    <div class="gif-tabs">
+      <button class="gif-tab active" onclick="switchGifTab('premade')">Premade GIFs</button>
+      <button class="gif-tab" onclick="switchGifTab('upload')">Upload File</button>
+      <button class="gif-tab" onclick="switchGifTab('url')">Paste URL</button>
+    </div>
+    <div id="gif-tab-premade">
+      <div id="gif-premade-grid"></div>
+    </div>
+    <div id="gif-tab-upload" style="display:none">
+      <div id="gif-upload-area" onclick="document.getElementById('gif-file-input').click()">
+        <div style="font-size:32px;margin-bottom:10px">📁</div>
+        <div style="font-weight:600;margin-bottom:4px">Click to upload image or GIF</div>
+        <div style="font-size:12px">PNG, JPG, GIF, WEBP supported</div>
+      </div>
+      <input type="file" id="gif-file-input" accept="image/*" onchange="handleFileUpload(event)">
+    </div>
+    <div id="gif-tab-url" style="display:none">
+      <div id="gif-url-area">
+        <input type="text" id="gif-url-input" placeholder="https://example.com/image.gif">
+        <button class="topbtn accent" onclick="addImageFromUrl()">Add</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="topbtn accent" onclick="closeGifModal()">✕ Close</button>
+    </div>
   </div>
 </div>
 
@@ -562,24 +610,140 @@ const canvas = document.getElementById('canvas')
 let selected = null
 let gridOn = true
 
-/* ─── SNAP TO GRID ─── */
+/* ── PREMADE GIFS ── */
+const PREMADE_GIFS = [
+  'https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif',
+  'https://media.giphy.com/media/xT9IgG50Lg7rusRgXi/giphy.gif',
+  'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
+  'https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif',
+  'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif',
+  'https://media.giphy.com/media/l2JhtKtDWYNKdRpoA/giphy.gif',
+  'https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif',
+  'https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif',
+  'https://media.giphy.com/media/l0HlPwMAzh13pcZ20/giphy.gif',
+  'https://media.giphy.com/media/3o7TKoWXm3okO1kgHC/giphy.gif',
+  'https://media.giphy.com/media/xT9IgNeZBuoFoC7ABO/giphy.gif',
+  'https://media.giphy.com/media/26tPplGWjN0xLybiU/giphy.gif',
+]
+
+;(function buildGrid(){
+  const grid = document.getElementById('gif-premade-grid')
+  PREMADE_GIFS.forEach(url => {
+    const img = document.createElement('img')
+    img.src = url
+    img.loading = 'lazy'
+    img.title = 'Click to add'
+    img.onclick = () => { placeImage(url); closeGifModal(); }
+    grid.appendChild(img)
+  })
+})()
+
+/* ── GIF MODAL ── */
+function openGifModal(){
+  document.getElementById('gif-modal').classList.add('open')
+  switchGifTab('premade')
+}
+function closeGifModal(){
+  document.getElementById('gif-modal').classList.remove('open')
+}
+function switchGifTab(tab){
+  const tabs = ['premade','upload','url']
+  tabs.forEach(t => {
+    document.getElementById('gif-tab-'+t).style.display = t===tab ? '' : 'none'
+  })
+  document.querySelectorAll('.gif-tab').forEach((btn,i) => {
+    btn.classList.toggle('active', tabs[i] === tab)
+  })
+}
+function handleFileUpload(e){
+  const file = e.target.files[0]
+  if(!file) return
+  const reader = new FileReader()
+  reader.onload = ev => { placeImage(ev.target.result); closeGifModal(); }
+  reader.readAsDataURL(file)
+}
+function addImageFromUrl(){
+  const url = document.getElementById('gif-url-input').value.trim()
+  if(!url) return
+  placeImage(url)
+  closeGifModal()
+}
+function placeImage(src){
+  const el = document.createElement('img')
+  el.src = src
+  el.className = 'element el-img'
+  el.dataset.type = 'image'
+  el.style.left = '150px'
+  el.style.top  = '150px'
+  el.style.width = '200px'
+  canvas.appendChild(el)
+  makeDraggable(el)
+  selectEl(el)
+}
+
+/* ── SNAP ── */
 function snap(v, g=20){ return Math.round(v/g)*g }
 
-/* ─── DRAGGABLE ─── */
-function draggable(el){
-  el.addEventListener('mousedown', e => {
-    if(e.target !== el && e.target.tagName === 'INPUT') return
-    e.preventDefault()
-    selectEl(el)
+/* ── RESIZE HANDLES ── */
+function addResizeHandles(el){
+  removeResizeHandles(el)
+  const dirs = [
+    {cls:'rh-se', dir:'se'},
+    {cls:'rh-e',  dir:'e'},
+    {cls:'rh-s',  dir:'s'},
+  ]
+  dirs.forEach(({cls, dir}) => {
+    const h = document.createElement('div')
+    h.className = 'resize-handle ' + cls
+    el.appendChild(h)
+    setupResize(el, h, dir)
+  })
+}
 
-    const startX = e.clientX - el.offsetLeft
-    const startY = e.clientY - el.offsetTop
+function removeResizeHandles(el){
+  el.querySelectorAll('.resize-handle').forEach(h => h.remove())
+}
+
+function setupResize(el, handle, dir){
+  handle.addEventListener('mousedown', e => {
+    e.stopPropagation()
+    e.preventDefault()
+    const ox = e.clientX, oy = e.clientY
+    const sw = el.offsetWidth, sh = el.offsetHeight
 
     const onMove = e => {
-      el.style.left = snap(e.clientX - startX) + 'px'
-      el.style.top  = snap(e.clientY - startY) + 'px'
-      document.getElementById('status-pos').textContent =
-        `x:${el.offsetLeft} y:${el.offsetTop}`
+      const dx = e.clientX - ox
+      const dy = e.clientY - oy
+      if(dir === 'se' || dir === 'e') el.style.width  = Math.max(40, snap(sw + dx)) + 'px'
+      if(dir === 'se' || dir === 's') el.style.height = Math.max(20, snap(sh + dy)) + 'px'
+      document.getElementById('status-size').textContent = `${el.offsetWidth}×${el.offsetHeight}`
+    }
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  })
+}
+
+/* ── DRAG ── */
+function makeDraggable(el){
+  el.addEventListener('mousedown', e => {
+    if(e.target.classList.contains('resize-handle')) return
+    // allow text editing on double-click for text elements
+    if(e.detail >= 2 && el.contentEditable === 'true') return
+    e.preventDefault()
+    e.stopPropagation()
+    selectEl(el)
+
+    const sx = e.clientX - el.offsetLeft
+    const sy = e.clientY - el.offsetTop
+
+    const onMove = e => {
+      el.style.left = snap(e.clientX - sx) + 'px'
+      el.style.top  = snap(e.clientY - sy) + 'px'
+      document.getElementById('status-pos').textContent = `x:${el.offsetLeft}  y:${el.offsetTop}`
     }
     const onUp = () => {
       document.removeEventListener('mousemove', onMove)
@@ -591,123 +755,122 @@ function draggable(el){
 }
 
 function selectEl(el){
-  if(selected) selected.classList.remove('selected-el')
+  if(selected){
+    selected.classList.remove('selected-el')
+    removeResizeHandles(selected)
+  }
   selected = el
   el.classList.add('selected-el')
+  addResizeHandles(el)
   document.getElementById('status-el').textContent = el.dataset.type || el.tagName.toLowerCase()
+  document.getElementById('status-size').textContent = `${el.offsetWidth}×${el.offsetHeight}`
 }
 
 canvas.addEventListener('mousedown', e => {
   if(e.target === canvas){
-    if(selected) selected.classList.remove('selected-el')
+    if(selected){ selected.classList.remove('selected-el'); removeResizeHandles(selected); }
     selected = null
     document.getElementById('status-el').textContent = 'none'
     document.getElementById('status-pos').textContent = ''
+    document.getElementById('status-size').textContent = ''
   }
 })
 
-/* ─── ADD ELEMENTS ─── */
+/* ── ADD ELEMENTS ── */
 function addText(){
   const t = prompt('Enter text:')
-  if(!t) return
+  if(t === null) return
   const el = document.createElement('div')
   el.className = 'element el-text'
-  el.innerText = t
+  el.innerText = t || 'Text'
   el.dataset.type = 'text'
-  el.style.left = '100px'
-  el.style.top = '100px'
+  el.style.left = '100px'; el.style.top = '100px'
   el.contentEditable = 'true'
   canvas.appendChild(el)
-  draggable(el)
-  selectEl(el)
+  makeDraggable(el); selectEl(el)
 }
 
 function addHeading(){
   const t = prompt('Heading text:')
-  if(!t) return
+  if(t === null) return
   const el = document.createElement('div')
   el.className = 'element el-text'
-  el.innerText = t
+  el.innerText = t || 'Heading'
   el.dataset.type = 'heading'
-  el.style.left = '100px'
-  el.style.top = '80px'
-  el.style.fontSize = '32px'
-  el.style.fontWeight = '700'
-  el.style.color = '#111'
+  el.style.left = '100px'; el.style.top = '80px'
+  el.style.fontSize = '32px'; el.style.fontWeight = '700'; el.style.color = '#111'
   el.contentEditable = 'true'
   canvas.appendChild(el)
-  draggable(el)
-  selectEl(el)
+  makeDraggable(el); selectEl(el)
 }
 
 function addButton(){
   const name = prompt('Button label:')
-  if(!name) return
-  const link = prompt('Link URL (or leave blank):') || '#'
-
-  const el = document.createElement('button')
+  if(name === null) return
+  const link = prompt('Link URL (leave blank to skip):') || '#'
+  // Use div so native <button> drag issues are avoided entirely
+  const el = document.createElement('div')
   el.className = 'element el-btn'
-  el.innerText = name
+  el.innerText = name || 'Click me'
   el.dataset.type = 'button'
   el.dataset.link = link
-  el.style.left = '120px'
-  el.style.top = '140px'
+  el.style.left = '120px'; el.style.top = '140px'
   canvas.appendChild(el)
-  draggable(el)
-  selectEl(el)
-}
-
-function addImage(){
-  const url = prompt('Image or GIF URL:')
-  if(!url) return
-  const el = document.createElement('img')
-  el.src = url
-  el.className = 'element el-img'
-  el.dataset.type = 'image'
-  el.style.width = '200px'
-  el.style.left = '150px'
-  el.style.top = '150px'
-  canvas.appendChild(el)
-  draggable(el)
-  selectEl(el)
+  makeDraggable(el); selectEl(el)
 }
 
 function addBox(){
   const el = document.createElement('div')
-  el.className = 'element'
+  el.className = 'element el-box'
   el.dataset.type = 'box'
-  el.style.left = '140px'
-  el.style.top = '140px'
-  el.style.width = '200px'
-  el.style.height = '120px'
-  el.style.background = '#f3f0ff'
-  el.style.borderRadius = '12px'
+  el.style.left = '140px'; el.style.top = '140px'
+  el.style.width = '200px'; el.style.height = '120px'
+  el.style.background = '#f3f0ff'; el.style.borderRadius = '12px'
   el.style.border = '1.5px solid #d8b4fe'
   canvas.appendChild(el)
-  draggable(el)
-  selectEl(el)
+  makeDraggable(el); selectEl(el)
 }
 
-/* ─── STYLE ─── */
+/* ── STYLE ── */
 function setTextColor(){
   if(!selected) return alert('Select an element first.')
   const c = prompt('Text color (e.g. #111 or red):')
   if(c) selected.style.color = c
 }
-
 function setBgColor(){
   if(!selected) return alert('Select an element first.')
-  const c = prompt('Background color (e.g. #f0f0ff or transparent):')
+  const c = prompt('Background (e.g. #f0f0ff, red, or transparent):')
   if(c !== null) selected.style.background = c
 }
-
 function setFontSize(){
   if(!selected) return alert('Select an element first.')
   const s = prompt('Font size in px (e.g. 24):')
-  if(s) selected.style.fontSize = s + 'px'
+  if(s) selected.style.fontSize = parseInt(s) + 'px'
+}
+function setSize(){
+  if(!selected) return alert('Select an element first.')
+  const w = prompt(`Width in px (current: ${selected.offsetWidth}):`)
+  const h = prompt(`Height in px (current: ${selected.offsetHeight}):`)
+  if(w) selected.style.width  = parseInt(w) + 'px'
+  if(h) selected.style.height = parseInt(h) + 'px'
+  // refresh handles position
+  removeResizeHandles(selected); addResizeHandles(selected)
+  document.getElementById('status-size').textContent = `${selected.offsetWidth}×${selected.offsetHeight}`
 }
 
-/* ─── ANIMATION ─── */
+/* ── AURA ── */
+const AURAS = ['aura','aura-fire','aura-ice','aura-gold']
+function setAura(a){
+  if(!selected) return alert('Select an element first.')
+  AURAS.forEach(x => selected.classList.remove(x))
+  selected.classList.add(a)
+}
+function clearAura(){
+  if(!selected) return
+  AURAS.forEach(x => selected.classList.remove(x))
+}
+
+/* ── ANIMATION ── */
 const ANIMS = ['float','pulse','spin']
 function setAnim(a){
   if(!selected) return alert('Select an element first.')
@@ -719,54 +882,49 @@ function clearAnim(){
   ANIMS.forEach(x => selected.classList.remove(x))
 }
 
-/* ─── DELETE ─── */
+/* ── DELETE ── */
 function deleteSelected(){
   if(!selected) return alert('Select an element first.')
-  selected.remove()
-  selected = null
+  selected.remove(); selected = null
   document.getElementById('status-el').textContent = 'none'
+  document.getElementById('status-size').textContent = ''
 }
 
-/* ─── GRID TOGGLE ─── */
+/* ── GRID ── */
 function toggleGrid(){
   gridOn = !gridOn
   canvas.style.backgroundImage = gridOn
-    ? `linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-       linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)`
+    ? `linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px)`
     : 'none'
 }
 
-/* ─── SAVE / LOAD ─── */
-function saveProject(){
-  localStorage.setItem('ultrabuilder_v2', canvas.innerHTML)
-  alert('Project saved!')
+/* ── SAVE / LOAD ── */
+function getCleanHTML(){
+  const clone = canvas.cloneNode(true)
+  clone.querySelectorAll('.resize-handle').forEach(h => h.remove())
+  clone.querySelectorAll('.selected-el').forEach(el => el.classList.remove('selected-el'))
+  return clone.innerHTML
 }
-
+function saveProject(){
+  localStorage.setItem('ultrabuilder_v3', getCleanHTML())
+  alert('Saved!')
+}
 function loadProject(){
-  const d = localStorage.getItem('ultrabuilder_v2')
+  const d = localStorage.getItem('ultrabuilder_v3')
   if(!d) return alert('No saved project found.')
   canvas.innerHTML = d
-  // re-attach draggable to loaded elements
-  canvas.querySelectorAll('.element').forEach(el => draggable(el))
+  canvas.querySelectorAll('.element').forEach(el => makeDraggable(el))
 }
 
-/* ─── PREVIEW ─── */
-let previewMode = 'pc'
-
+/* ── PREVIEW ── */
 function buildPreviewHTML(){
-  // clone canvas contents
   const clone = canvas.cloneNode(true)
   clone.querySelectorAll('.selected-el').forEach(el => el.classList.remove('selected-el'))
-  clone.style.position = 'relative'
-  clone.style.width = '100%'
-  clone.style.height = '100%'
-  clone.style.overflow = 'hidden'
-
-  // re-enable button clicks
-  clone.querySelectorAll('button.el-btn').forEach(btn => {
+  clone.querySelectorAll('.resize-handle').forEach(h => h.remove())
+  clone.querySelectorAll('.el-btn').forEach(btn => {
     const link = btn.dataset.link
     if(link && link !== '#') btn.setAttribute('onclick', `window.open('${link}')`)
-    btn.style.pointerEvents = 'auto'
+    btn.style.cursor = 'pointer'
   })
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8">
@@ -775,13 +933,22 @@ function buildPreviewHTML(){
 body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif}
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes pulse-a{0%,100%{opacity:1}50%{opacity:0.5}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes aura-pulse{0%,100%{box-shadow:0 0 20px 6px rgba(124,92,252,0.5),0 0 40px 12px rgba(192,132,252,0.3)}50%{box-shadow:0 0 35px 14px rgba(124,92,252,0.8),0 0 70px 24px rgba(192,132,252,0.5)}}
+@keyframes aura-fire{0%,100%{box-shadow:0 0 20px 6px rgba(251,146,60,0.6),0 0 40px 14px rgba(239,68,68,0.4)}50%{box-shadow:0 0 40px 18px rgba(251,146,60,0.9),0 0 80px 30px rgba(239,68,68,0.6)}}
+@keyframes aura-ice{0%,100%{box-shadow:0 0 20px 6px rgba(96,165,250,0.5),0 0 40px 12px rgba(34,211,238,0.3)}50%{box-shadow:0 0 35px 14px rgba(96,165,250,0.8),0 0 70px 24px rgba(34,211,238,0.5)}}
+@keyframes aura-gold{0%,100%{box-shadow:0 0 20px 6px rgba(250,204,21,0.5),0 0 40px 12px rgba(245,158,11,0.3)}50%{box-shadow:0 0 35px 14px rgba(250,204,21,0.9),0 0 70px 24px rgba(245,158,11,0.6)}}
 .float{animation:float 2s infinite ease-in-out}
-.pulse{animation:pulse 1.5s infinite ease-in-out}
+.pulse{animation:pulse-a 1.5s infinite ease-in-out}
 .spin{animation:spin 2s linear infinite}
-.element{position:absolute;cursor:default!important;resize:none!important}
-.el-btn{padding:10px 22px;border:none;border-radius:9px;background:linear-gradient(135deg,#7c5cfc,#c084fc);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(124,92,252,0.35)}
+.aura{animation:aura-pulse 2s infinite ease-in-out}
+.aura-fire{animation:aura-fire 1.5s infinite ease-in-out}
+.aura-ice{animation:aura-ice 2.5s infinite ease-in-out}
+.aura-gold{animation:aura-gold 2s infinite ease-in-out}
+.element{position:absolute;cursor:default!important}
+.el-btn{padding:10px 22px;border-radius:9px;background:linear-gradient(135deg,#7c5cfc,#c084fc);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(124,92,252,0.35);display:inline-block}
+.el-text{font-family:inherit;font-size:16px;color:#111;padding:4px}
 </style>
 </head><body style="background:white">
 ${clone.innerHTML}
@@ -789,65 +956,42 @@ ${clone.innerHTML}
 }
 
 function openPreview(mode){
-  previewMode = mode
-  const modal = document.getElementById('preview-modal')
-  modal.classList.add('open')
+  document.getElementById('preview-modal').classList.add('open')
   renderPreviewFrame(mode)
 }
-
-function switchPreview(mode){
-  previewMode = mode
-  renderPreviewFrame(mode)
-}
-
+function switchPreview(mode){ renderPreviewFrame(mode) }
 function renderPreviewFrame(mode){
-  const wrap = document.getElementById('preview-frame-wrap')
+  const wrap  = document.getElementById('preview-frame-wrap')
   const frame = document.getElementById('preview-frame')
-
   if(mode === 'phone'){
     wrap.classList.add('phone-wrap')
-    frame.style.width = '390px'
-    frame.style.height = '844px'
+    frame.style.width = '390px'; frame.style.height = '844px'
   } else {
     wrap.classList.remove('phone-wrap')
-    frame.style.width = '1024px'
-    frame.style.height = '640px'
+    frame.style.width = '1024px'; frame.style.height = '640px'
   }
-
-  const html = buildPreviewHTML()
-  frame.srcdoc = html
+  frame.srcdoc = buildPreviewHTML()
 }
+function closePreview(){ document.getElementById('preview-modal').classList.remove('open') }
 
-function closePreview(){
-  document.getElementById('preview-modal').classList.remove('open')
-}
-
-/* ─── EXPORT ─── */
+/* ── EXPORT ── */
 function openExport(){
-  const html = buildPreviewHTML()
-  document.getElementById('export-box').value = html
+  document.getElementById('export-box').value = buildPreviewHTML()
   document.getElementById('export-panel').classList.add('open')
 }
-
-function closeExport(){
-  document.getElementById('export-panel').classList.remove('open')
-}
-
+function closeExport(){ document.getElementById('export-panel').classList.remove('open') }
 function copyExport(){
   const ta = document.getElementById('export-box')
-  ta.select()
-  document.execCommand('copy')
-  alert('Copied to clipboard!')
+  ta.select(); document.execCommand('copy'); alert('Copied!')
 }
 
-/* ─── CLOSE MODALS ON ESC ─── */
+/* ── KEYBOARD ── */
 document.addEventListener('keydown', e => {
-  if(e.key === 'Escape'){
-    closePreview()
-    closeExport()
-  }
-  if((e.key === 'Delete' || e.key === 'Backspace') && selected && e.target === document.body){
-    deleteSelected()
+  if(e.key === 'Escape'){ closePreview(); closeExport(); closeGifModal(); }
+  const active = document.activeElement
+  const isEditing = active && (active.isContentEditable || active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')
+  if((e.key === 'Delete' || e.key === 'Backspace') && selected && !isEditing){
+    e.preventDefault(); deleteSelected()
   }
 })
 </script>
