@@ -1,93 +1,289 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-<title>Simple Website Builder</title>
+<meta charset="UTF-8">
+<title>Ultra Web Builder</title>
+
 <style>
+
 body{
-font-family:Arial;
-background:#1e1e1e;
-color:white;
-}
-
-#toolbar{
-padding:10px;
-background:#333;
-}
-
-button{
-margin:5px;
-padding:8px;
+margin:0;
+font-family:Segoe UI;
+background:#0f0f0f;
+overflow:hidden;
 }
 
 #canvas{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
 background:white;
-color:black;
-min-height:400px;
-margin:10px;
-padding:10px;
-border:2px solid #555;
+overflow:hidden;
 }
 
-textarea{
+#menu{
+position:absolute;
+top:20px;
+left:20px;
+width:240px;
+background:#1a1a1a;
+color:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+cursor:move;
+z-index:1000;
+}
+
+#menu h3{
+margin-top:0;
+}
+
+.tool{
+width:100%;
+margin-top:6px;
+padding:10px;
+border:none;
+border-radius:8px;
+background:#2a2a2a;
+color:white;
+cursor:pointer;
+transition:0.2s;
+}
+
+.tool:hover{
+background:#3a3a3a;
+transform:scale(1.03);
+}
+
+.element{
+position:absolute;
+resize:both;
+overflow:auto;
+cursor:move;
+}
+
+.grid{
+background-image:
+linear-gradient(#eee 1px, transparent 1px),
+linear-gradient(90deg,#eee 1px,transparent 1px);
+background-size:20px 20px;
+}
+
+#exportBox{
+position:absolute;
+bottom:0;
 width:100%;
 height:150px;
+font-family:monospace;
 }
+
+.previewPhone{
+width:390px !important;
+height:844px !important;
+margin:auto;
+border:8px solid black;
+border-radius:30px;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+100%{transform:translateY(0)}
+}
+
+.float{
+animation:float 2s infinite ease-in-out;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div id="toolbar">
-<button onclick="addText()">Add Text</button>
-<button onclick="addButton()">Add Button</button>
-<button onclick="addImage()">Add Image</button>
-<button onclick="exportHTML()">Export HTML</button>
+<div id="canvas" class="grid"></div>
+
+<div id="menu">
+<h3>Ultra Builder</h3>
+
+<button class="tool" onclick="addText()">Add Text</button> <button class="tool" onclick="addButton()">Add Button</button> <button class="tool" onclick="addImage()">Add Image / GIF</button>
+
+<hr>
+
+<button class="tool" onclick="setColor()">Color Picker</button> <button class="tool" onclick="toggleFloat()">Add Animation</button>
+
+<hr>
+
+<button class="tool" onclick="previewPhone()">Phone Preview</button> <button class="tool" onclick="previewPC()">PC Preview</button>
+
+<hr>
+
+<button class="tool" onclick="saveProject()">Save Project</button> <button class="tool" onclick="loadProject()">Load Project</button> <button class="tool" onclick="exportHTML()">Export HTML</button>
+
 </div>
 
-<div id="canvas"></div>
-
-<textarea id="output" placeholder="Generated HTML will appear here"></textarea>
+<textarea id="exportBox"></textarea>
 
 <script>
 
-function addText(){
-let text = prompt("Enter text");
-if(!text) return;
+const canvas=document.getElementById("canvas")
+let selected=null
 
-let el = document.createElement("p");
-el.textContent = text;
-document.getElementById("canvas").appendChild(el);
+function draggable(el){
+
+let offsetX,offsetY
+
+el.onclick=()=>selected=el
+
+el.onmousedown=function(e){
+
+offsetX=e.clientX-el.offsetLeft
+offsetY=e.clientY-el.offsetTop
+
+document.onmousemove=function(e){
+
+let x=e.clientX-offsetX
+let y=e.clientY-offsetY
+
+x=Math.round(x/20)*20
+y=Math.round(y/20)*20
+
+el.style.left=x+"px"
+el.style.top=y+"px"
+
+}
+
+document.onmouseup=()=>document.onmousemove=null
+
+}
+
+}
+
+/* elements */
+
+function addText(){
+
+let text=prompt("Text")
+
+let el=document.createElement("div")
+el.innerText=text
+el.className="element"
+el.style.left="100px"
+el.style.top="100px"
+
+canvas.appendChild(el)
+
+draggable(el)
+
 }
 
 function addButton(){
-let label = prompt("Button text");
-let link = prompt("Button link");
 
-let btn = document.createElement("button");
-btn.textContent = label;
+let name=prompt("Button text")
+let link=prompt("Link")
 
-btn.onclick = function(){
-window.location = link;
-}
+let btn=document.createElement("button")
+btn.innerText=name
+btn.onclick=()=>window.open(link)
 
-document.getElementById("canvas").appendChild(btn);
+btn.className="element"
+btn.style.left="120px"
+btn.style.top="120px"
+
+canvas.appendChild(btn)
+
+draggable(btn)
+
 }
 
 function addImage(){
-let url = prompt("Image URL");
 
-let img = document.createElement("img");
-img.src = url;
-img.style.maxWidth = "200px";
+let url=prompt("Image or GIF URL")
 
-document.getElementById("canvas").appendChild(img);
+let img=document.createElement("img")
+img.src=url
+img.className="element"
+img.style.width="200px"
+img.style.left="150px"
+img.style.top="150px"
+
+canvas.appendChild(img)
+
+draggable(img)
+
 }
+
+/* color */
+
+function setColor(){
+
+if(!selected) return alert("Select element first")
+
+let color=prompt("Color (ex: red or #ff0000)")
+
+selected.style.color=color
+selected.style.background=color
+
+}
+
+/* animation */
+
+function toggleFloat(){
+
+if(!selected) return
+
+selected.classList.toggle("float")
+
+}
+
+/* preview */
+
+function previewPhone(){
+canvas.classList.add("previewPhone")
+}
+
+function previewPC(){
+canvas.classList.remove("previewPhone")
+}
+
+/* save */
+
+function saveProject(){
+
+localStorage.setItem("builder",canvas.innerHTML)
+
+alert("Saved!")
+
+}
+
+function loadProject(){
+
+canvas.innerHTML=localStorage.getItem("builder")||""
+
+}
+
+/* export */
 
 function exportHTML(){
-let html = document.getElementById("canvas").innerHTML;
-document.getElementById("output").value =
-"<html>\n<body>\n" + html + "\n</body>\n</html>";
+
+let html=canvas.innerHTML
+
+document.getElementById("exportBox").value=
+`<html>
+<body>
+${html}
+</body>
+</html>`
+
 }
+
+/* draggable menu */
+
+draggable(document.getElementById("menu"))
 
 </script>
 
