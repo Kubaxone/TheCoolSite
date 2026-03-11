@@ -1,291 +1,855 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Ultra Web Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body{
-margin:0;
-font-family:Segoe UI;
-background:#0f0f0f;
-overflow:hidden;
+:root {
+  --bg: #0a0a0a;
+  --panel: #111111;
+  --panel2: #181818;
+  --border: #252525;
+  --accent: #7c5cfc;
+  --accent2: #c084fc;
+  --text: #f0f0f0;
+  --muted: #666;
+  --canvas-bg: #ffffff;
+  --radius: 12px;
+  --font-ui: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
 }
 
-#canvas{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-overflow:hidden;
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
 }
 
-#menu{
-position:absolute;
-top:20px;
-left:20px;
-width:240px;
-background:#1a1a1a;
-color:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
-cursor:move;
-z-index:1000;
+/* ─── TOP BAR ─── */
+#topbar {
+  height: 52px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 200;
 }
 
-#menu h3{
-margin-top:0;
+#topbar .logo {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.05em;
+  margin-right: 8px;
 }
 
-.tool{
-width:100%;
-margin-top:6px;
-padding:10px;
-border:none;
-border-radius:8px;
-background:#2a2a2a;
-color:white;
-cursor:pointer;
-transition:0.2s;
+.sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+
+.topbtn {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel2);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+  white-space: nowrap;
 }
 
-.tool:hover{
-background:#3a3a3a;
-transform:scale(1.03);
+.topbtn:hover {
+  background: #222;
+  border-color: #444;
+  transform: translateY(-1px);
 }
 
-.element{
-position:absolute;
-resize:both;
-overflow:auto;
-cursor:move;
+.topbtn.accent {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  color: #fff;
+  font-weight: 600;
 }
 
-.grid{
-background-image:
-linear-gradient(#eee 1px, transparent 1px),
-linear-gradient(90deg,#eee 1px,transparent 1px);
-background-size:20px 20px;
+.topbtn.accent:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-#exportBox{
-position:absolute;
-bottom:0;
-width:100%;
-height:150px;
-font-family:monospace;
+.topbtn svg { flex-shrink: 0; }
+
+.spacer { flex: 1; }
+
+/* ─── MAIN AREA ─── */
+#main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 
-.previewPhone{
-width:390px !important;
-height:844px !important;
-margin:auto;
-border:8px solid black;
-border-radius:30px;
+/* ─── LEFT PANEL ─── */
+#sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(-10px)}
-100%{transform:translateY(0)}
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 12px 8px 6px;
 }
 
-.float{
-animation:float 2s infinite ease-in-out;
+.tool {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: all 0.15s;
 }
+
+.tool:hover {
+  background: var(--panel2);
+  border-color: var(--border);
+  transform: translateX(2px);
+}
+
+.tool svg { opacity: 0.7; flex-shrink: 0; }
+.tool:hover svg { opacity: 1; }
+
+.tool-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-purple { background: rgba(124,92,252,0.15); color: var(--accent); }
+.icon-pink   { background: rgba(192,132,252,0.15); color: var(--accent2); }
+.icon-blue   { background: rgba(96,165,250,0.15); color: #60a5fa; }
+.icon-green  { background: rgba(52,211,153,0.15); color: #34d399; }
+.icon-orange { background: rgba(251,146,60,0.15); color: #fb923c; }
+.icon-red    { background: rgba(248,113,113,0.15); color: #f87171; }
+
+/* ─── CANVAS AREA ─── */
+#canvas-wrap {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: #0d0d0d;
+  background-image: radial-gradient(circle, #1e1e1e 1px, transparent 1px);
+  background-size: 24px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#canvas {
+  width: 1280px;
+  height: 800px;
+  background: var(--canvas-bg);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  border-radius: 4px;
+  transform-origin: center;
+  flex-shrink: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+#canvas.phone-mode {
+  width: 390px;
+  height: 844px;
+  border-radius: 40px;
+  border: 10px solid #111;
+  box-shadow: 0 0 0 3px #333, 0 40px 80px rgba(0,0,0,0.8);
+}
+
+/* ─── ELEMENTS ON CANVAS ─── */
+.element {
+  position: absolute;
+  cursor: move;
+  user-select: none;
+  min-width: 40px;
+  min-height: 24px;
+  resize: both;
+  overflow: auto;
+}
+
+.element.selected-el {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Default styles for elements added to canvas */
+.el-text {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  color: #111;
+  padding: 4px;
+}
+
+.el-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #7c5cfc, #c084fc);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(124,92,252,0.35);
+  transition: all 0.2s;
+  pointer-events: none; /* disable click while editing */
+}
+
+.el-img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.float { animation: float 2s infinite ease-in-out; }
+
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+.pulse { animation: pulse 1.5s infinite ease-in-out; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spin { animation: spin 2s linear infinite; }
+
+/* ─── PREVIEW MODAL ─── */
+#preview-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#preview-modal.open { display: flex; }
+
+#preview-modal .modal-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#preview-frame-wrap {
+  position: relative;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+}
+
+#preview-frame-wrap.phone-wrap {
+  border-radius: 44px;
+  border: 10px solid #1a1a1a;
+  box-shadow: 0 0 0 3px #333, 0 50px 100px rgba(0,0,0,0.9);
+}
+
+#preview-frame {
+  border: none;
+  display: block;
+  background: white;
+}
+
+/* ─── EXPORT PANEL ─── */
+#export-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 9998;
+  align-items: center;
+  justify-content: center;
+}
+
+#export-panel.open { display: flex; }
+
+#export-inner {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  width: 700px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#export-inner h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+#export-inner textarea {
+  width: 100%;
+  height: 280px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: #a5f3fc;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 14px;
+  resize: none;
+  outline: none;
+}
+
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ─── STATUS BAR ─── */
+#statusbar {
+  height: 26px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+#status-el { color: var(--accent2); }
+#status-pos { margin-left: auto; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
 </style>
-
 </head>
-
 <body>
 
-<div id="canvas" class="grid"></div>
+<!-- TOP BAR -->
+<div id="topbar">
+  <span class="logo">⬡ ULTRA BUILDER</span>
+  <div class="sep"></div>
+  <button class="topbtn" onclick="toggleGrid()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    Grid
+  </button>
+  <button class="topbtn" onclick="deleteSelected()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+    Delete
+  </button>
+  <div class="sep"></div>
+  <button class="topbtn" onclick="saveProject()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    Save
+  </button>
+  <button class="topbtn" onclick="loadProject()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    Load
+  </button>
+  <div class="spacer"></div>
+  <button class="topbtn" onclick="openPreview('pc')">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    Preview PC
+  </button>
+  <button class="topbtn" onclick="openPreview('phone')">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+    Preview Phone
+  </button>
+  <button class="topbtn accent" onclick="openExport()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Export HTML
+  </button>
+</div>
 
-<div id="menu">
-<h3>Ultra Builder</h3>
+<!-- MAIN -->
+<div id="main">
 
-<button class="tool" onclick="addText()">Add Text</button> <button class="tool" onclick="addButton()">Add Button</button> <button class="tool" onclick="addImage()">Add Image / GIF</button>
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="section-label">Elements</div>
 
-<hr>
+    <button class="tool" onclick="addText()">
+      <span class="tool-icon icon-purple">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      </span>
+      Text Block
+    </button>
 
-<button class="tool" onclick="setColor()">Color Picker</button> <button class="tool" onclick="toggleFloat()">Add Animation</button>
+    <button class="tool" onclick="addHeading()">
+      <span class="tool-icon icon-pink">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+      </span>
+      Heading
+    </button>
 
-<hr>
+    <button class="tool" onclick="addButton()">
+      <span class="tool-icon icon-blue">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="4"/></svg>
+      </span>
+      Button
+    </button>
 
-<button class="tool" onclick="previewPhone()">Phone Preview</button> <button class="tool" onclick="previewPC()">PC Preview</button>
+    <button class="tool" onclick="addImage()">
+      <span class="tool-icon icon-green">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </span>
+      Image / GIF
+    </button>
 
-<hr>
+    <button class="tool" onclick="addBox()">
+      <span class="tool-icon icon-orange">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+      </span>
+      Box / Card
+    </button>
 
-<button class="tool" onclick="saveProject()">Save Project</button> <button class="tool" onclick="loadProject()">Load Project</button> <button class="tool" onclick="exportHTML()">Export HTML</button>
+    <div class="section-label">Style</div>
+
+    <button class="tool" onclick="setTextColor()">
+      <span class="tool-icon icon-pink">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </span>
+      Text Color
+    </button>
+
+    <button class="tool" onclick="setBgColor()">
+      <span class="tool-icon icon-orange">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 20h20"/><path d="M6 20V10l6-8 6 8v10"/></svg>
+      </span>
+      Background Color
+    </button>
+
+    <button class="tool" onclick="setFontSize()">
+      <span class="tool-icon icon-blue">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      </span>
+      Font Size
+    </button>
+
+    <div class="section-label">Animation</div>
+
+    <button class="tool" onclick="setAnim('float')">
+      <span class="tool-icon icon-purple">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l4 8H8z"/><path d="M12 21v-6"/></svg>
+      </span>
+      Float
+    </button>
+
+    <button class="tool" onclick="setAnim('pulse')">
+      <span class="tool-icon icon-pink">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </span>
+      Pulse
+    </button>
+
+    <button class="tool" onclick="setAnim('spin')">
+      <span class="tool-icon icon-green">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+      </span>
+      Spin
+    </button>
+
+    <button class="tool" onclick="clearAnim()">
+      <span class="tool-icon icon-red">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>
+      Remove Anim
+    </button>
+  </div>
+
+  <!-- CANVAS -->
+  <div id="canvas-wrap">
+    <div id="canvas"></div>
+  </div>
 
 </div>
 
-<textarea id="exportBox"></textarea>
+<!-- STATUS BAR -->
+<div id="statusbar">
+  <span>Selected: <span id="status-el">none</span></span>
+  <span id="status-pos"></span>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div id="preview-modal">
+  <div class="modal-toolbar">
+    <button class="topbtn" onclick="switchPreview('pc')">🖥 PC</button>
+    <button class="topbtn" onclick="switchPreview('phone')">📱 Phone</button>
+    <button class="topbtn accent" onclick="closePreview()">✕ Close</button>
+  </div>
+  <div id="preview-frame-wrap">
+    <iframe id="preview-frame" scrolling="yes"></iframe>
+  </div>
+</div>
+
+<!-- EXPORT PANEL -->
+<div id="export-panel">
+  <div id="export-inner">
+    <h2>Export HTML</h2>
+    <textarea id="export-box" readonly spellcheck="false"></textarea>
+    <div class="modal-actions">
+      <button class="topbtn" onclick="copyExport()">📋 Copy</button>
+      <button class="topbtn accent" onclick="closeExport()">✕ Close</button>
+    </div>
+  </div>
+</div>
 
 <script>
+const canvas = document.getElementById('canvas')
+let selected = null
+let gridOn = true
 
-const canvas=document.getElementById("canvas")
-let selected=null
+/* ─── SNAP TO GRID ─── */
+function snap(v, g=20){ return Math.round(v/g)*g }
 
+/* ─── DRAGGABLE ─── */
 function draggable(el){
+  el.addEventListener('mousedown', e => {
+    if(e.target !== el && e.target.tagName === 'INPUT') return
+    e.preventDefault()
+    selectEl(el)
 
-let offsetX,offsetY
+    const startX = e.clientX - el.offsetLeft
+    const startY = e.clientY - el.offsetTop
 
-el.onclick=()=>selected=el
-
-el.onmousedown=function(e){
-
-offsetX=e.clientX-el.offsetLeft
-offsetY=e.clientY-el.offsetTop
-
-document.onmousemove=function(e){
-
-let x=e.clientX-offsetX
-let y=e.clientY-offsetY
-
-x=Math.round(x/20)*20
-y=Math.round(y/20)*20
-
-el.style.left=x+"px"
-el.style.top=y+"px"
-
+    const onMove = e => {
+      el.style.left = snap(e.clientX - startX) + 'px'
+      el.style.top  = snap(e.clientY - startY) + 'px'
+      document.getElementById('status-pos').textContent =
+        `x:${el.offsetLeft} y:${el.offsetTop}`
+    }
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  })
 }
 
-document.onmouseup=()=>document.onmousemove=null
-
+function selectEl(el){
+  if(selected) selected.classList.remove('selected-el')
+  selected = el
+  el.classList.add('selected-el')
+  document.getElementById('status-el').textContent = el.dataset.type || el.tagName.toLowerCase()
 }
 
-}
+canvas.addEventListener('mousedown', e => {
+  if(e.target === canvas){
+    if(selected) selected.classList.remove('selected-el')
+    selected = null
+    document.getElementById('status-el').textContent = 'none'
+    document.getElementById('status-pos').textContent = ''
+  }
+})
 
-/* elements */
-
+/* ─── ADD ELEMENTS ─── */
 function addText(){
+  const t = prompt('Enter text:')
+  if(!t) return
+  const el = document.createElement('div')
+  el.className = 'element el-text'
+  el.innerText = t
+  el.dataset.type = 'text'
+  el.style.left = '100px'
+  el.style.top = '100px'
+  el.contentEditable = 'true'
+  canvas.appendChild(el)
+  draggable(el)
+  selectEl(el)
+}
 
-let text=prompt("Text")
-
-let el=document.createElement("div")
-el.innerText=text
-el.className="element"
-el.style.left="100px"
-el.style.top="100px"
-
-canvas.appendChild(el)
-
-draggable(el)
-
+function addHeading(){
+  const t = prompt('Heading text:')
+  if(!t) return
+  const el = document.createElement('div')
+  el.className = 'element el-text'
+  el.innerText = t
+  el.dataset.type = 'heading'
+  el.style.left = '100px'
+  el.style.top = '80px'
+  el.style.fontSize = '32px'
+  el.style.fontWeight = '700'
+  el.style.color = '#111'
+  el.contentEditable = 'true'
+  canvas.appendChild(el)
+  draggable(el)
+  selectEl(el)
 }
 
 function addButton(){
+  const name = prompt('Button label:')
+  if(!name) return
+  const link = prompt('Link URL (or leave blank):') || '#'
 
-let name=prompt("Button text")
-let link=prompt("Link")
-
-let btn=document.createElement("button")
-btn.innerText=name
-btn.onclick=()=>window.open(link)
-
-btn.className="element"
-btn.style.left="120px"
-btn.style.top="120px"
-
-canvas.appendChild(btn)
-
-draggable(btn)
-
+  const el = document.createElement('button')
+  el.className = 'element el-btn'
+  el.innerText = name
+  el.dataset.type = 'button'
+  el.dataset.link = link
+  el.style.left = '120px'
+  el.style.top = '140px'
+  canvas.appendChild(el)
+  draggable(el)
+  selectEl(el)
 }
 
 function addImage(){
-
-let url=prompt("Image or GIF URL")
-
-let img=document.createElement("img")
-img.src=url
-img.className="element"
-img.style.width="200px"
-img.style.left="150px"
-img.style.top="150px"
-
-canvas.appendChild(img)
-
-draggable(img)
-
+  const url = prompt('Image or GIF URL:')
+  if(!url) return
+  const el = document.createElement('img')
+  el.src = url
+  el.className = 'element el-img'
+  el.dataset.type = 'image'
+  el.style.width = '200px'
+  el.style.left = '150px'
+  el.style.top = '150px'
+  canvas.appendChild(el)
+  draggable(el)
+  selectEl(el)
 }
 
-/* color */
-
-function setColor(){
-
-if(!selected) return alert("Select element first")
-
-let color=prompt("Color (ex: red or #ff0000)")
-
-selected.style.color=color
-selected.style.background=color
-
+function addBox(){
+  const el = document.createElement('div')
+  el.className = 'element'
+  el.dataset.type = 'box'
+  el.style.left = '140px'
+  el.style.top = '140px'
+  el.style.width = '200px'
+  el.style.height = '120px'
+  el.style.background = '#f3f0ff'
+  el.style.borderRadius = '12px'
+  el.style.border = '1.5px solid #d8b4fe'
+  canvas.appendChild(el)
+  draggable(el)
+  selectEl(el)
 }
 
-/* animation */
-
-function toggleFloat(){
-
-if(!selected) return
-
-selected.classList.toggle("float")
-
+/* ─── STYLE ─── */
+function setTextColor(){
+  if(!selected) return alert('Select an element first.')
+  const c = prompt('Text color (e.g. #111 or red):')
+  if(c) selected.style.color = c
 }
 
-/* preview */
-
-function previewPhone(){
-canvas.classList.add("previewPhone")
+function setBgColor(){
+  if(!selected) return alert('Select an element first.')
+  const c = prompt('Background color (e.g. #f0f0ff or transparent):')
+  if(c !== null) selected.style.background = c
 }
 
-function previewPC(){
-canvas.classList.remove("previewPhone")
+function setFontSize(){
+  if(!selected) return alert('Select an element first.')
+  const s = prompt('Font size in px (e.g. 24):')
+  if(s) selected.style.fontSize = s + 'px'
 }
 
-/* save */
+/* ─── ANIMATION ─── */
+const ANIMS = ['float','pulse','spin']
+function setAnim(a){
+  if(!selected) return alert('Select an element first.')
+  ANIMS.forEach(x => selected.classList.remove(x))
+  selected.classList.add(a)
+}
+function clearAnim(){
+  if(!selected) return
+  ANIMS.forEach(x => selected.classList.remove(x))
+}
 
+/* ─── DELETE ─── */
+function deleteSelected(){
+  if(!selected) return alert('Select an element first.')
+  selected.remove()
+  selected = null
+  document.getElementById('status-el').textContent = 'none'
+}
+
+/* ─── GRID TOGGLE ─── */
+function toggleGrid(){
+  gridOn = !gridOn
+  canvas.style.backgroundImage = gridOn
+    ? `linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+       linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)`
+    : 'none'
+}
+
+/* ─── SAVE / LOAD ─── */
 function saveProject(){
-
-localStorage.setItem("builder",canvas.innerHTML)
-
-alert("Saved!")
-
+  localStorage.setItem('ultrabuilder_v2', canvas.innerHTML)
+  alert('Project saved!')
 }
 
 function loadProject(){
-
-canvas.innerHTML=localStorage.getItem("builder")||""
-
+  const d = localStorage.getItem('ultrabuilder_v2')
+  if(!d) return alert('No saved project found.')
+  canvas.innerHTML = d
+  // re-attach draggable to loaded elements
+  canvas.querySelectorAll('.element').forEach(el => draggable(el))
 }
 
-/* export */
+/* ─── PREVIEW ─── */
+let previewMode = 'pc'
 
-function exportHTML(){
+function buildPreviewHTML(){
+  // clone canvas contents
+  const clone = canvas.cloneNode(true)
+  clone.querySelectorAll('.selected-el').forEach(el => el.classList.remove('selected-el'))
+  clone.style.position = 'relative'
+  clone.style.width = '100%'
+  clone.style.height = '100%'
+  clone.style.overflow = 'hidden'
 
-let html=canvas.innerHTML
+  // re-enable button clicks
+  clone.querySelectorAll('button.el-btn').forEach(btn => {
+    const link = btn.dataset.link
+    if(link && link !== '#') btn.setAttribute('onclick', `window.open('${link}')`)
+    btn.style.pointerEvents = 'auto'
+  })
 
-document.getElementById("exportBox").value=
-`<html>
-<body>
-${html}
-</body>
-</html>`
-
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.float{animation:float 2s infinite ease-in-out}
+.pulse{animation:pulse 1.5s infinite ease-in-out}
+.spin{animation:spin 2s linear infinite}
+.element{position:absolute;cursor:default!important;resize:none!important}
+.el-btn{padding:10px 22px;border:none;border-radius:9px;background:linear-gradient(135deg,#7c5cfc,#c084fc);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(124,92,252,0.35)}
+</style>
+</head><body style="background:white">
+${clone.innerHTML}
+</body></html>`
 }
 
-/* draggable menu */
+function openPreview(mode){
+  previewMode = mode
+  const modal = document.getElementById('preview-modal')
+  modal.classList.add('open')
+  renderPreviewFrame(mode)
+}
 
-draggable(document.getElementById("menu"))
+function switchPreview(mode){
+  previewMode = mode
+  renderPreviewFrame(mode)
+}
 
+function renderPreviewFrame(mode){
+  const wrap = document.getElementById('preview-frame-wrap')
+  const frame = document.getElementById('preview-frame')
+
+  if(mode === 'phone'){
+    wrap.classList.add('phone-wrap')
+    frame.style.width = '390px'
+    frame.style.height = '844px'
+  } else {
+    wrap.classList.remove('phone-wrap')
+    frame.style.width = '1024px'
+    frame.style.height = '640px'
+  }
+
+  const html = buildPreviewHTML()
+  frame.srcdoc = html
+}
+
+function closePreview(){
+  document.getElementById('preview-modal').classList.remove('open')
+}
+
+/* ─── EXPORT ─── */
+function openExport(){
+  const html = buildPreviewHTML()
+  document.getElementById('export-box').value = html
+  document.getElementById('export-panel').classList.add('open')
+}
+
+function closeExport(){
+  document.getElementById('export-panel').classList.remove('open')
+}
+
+function copyExport(){
+  const ta = document.getElementById('export-box')
+  ta.select()
+  document.execCommand('copy')
+  alert('Copied to clipboard!')
+}
+
+/* ─── CLOSE MODALS ON ESC ─── */
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    closePreview()
+    closeExport()
+  }
+  if((e.key === 'Delete' || e.key === 'Backspace') && selected && e.target === document.body){
+    deleteSelected()
+  }
+})
 </script>
-
 </body>
 </html>
