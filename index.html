@@ -1,1 +1,26 @@
-
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse-a{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes aura-pulse{0%,100%{box-shadow:0 0 20px 6px rgba(124,92,252,0.5),0 0 40px 12px rgba(192,132,252,0.3)}50%{box-shadow:0 0 35px 14px rgba(124,92,252,0.8),0 0 70px 24px rgba(192,132,252,0.5)}}
+@keyframes aura-fire{0%,100%{box-shadow:0 0 20px 6px rgba(251,146,60,0.6),0 0 40px 14px rgba(239,68,68,0.4)}50%{box-shadow:0 0 40px 18px rgba(251,146,60,0.9),0 0 80px 30px rgba(239,68,68,0.6)}}
+@keyframes aura-ice{0%,100%{box-shadow:0 0 20px 6px rgba(96,165,250,0.5),0 0 40px 12px rgba(34,211,238,0.3)}50%{box-shadow:0 0 35px 14px rgba(96,165,250,0.8),0 0 70px 24px rgba(34,211,238,0.5)}}
+@keyframes aura-gold{0%,100%{box-shadow:0 0 20px 6px rgba(250,204,21,0.5),0 0 40px 12px rgba(245,158,11,0.3)}50%{box-shadow:0 0 35px 14px rgba(250,204,21,0.9),0 0 70px 24px rgba(245,158,11,0.6)}}
+.float{animation:float 2s infinite ease-in-out}
+.pulse{animation:pulse-a 1.5s infinite ease-in-out}
+.spin{animation:spin 2s linear infinite}
+.aura{animation:aura-pulse 2s infinite ease-in-out}
+.aura-fire{animation:aura-fire 1.5s infinite ease-in-out}
+.aura-ice{animation:aura-ice 2.5s infinite ease-in-out}
+.aura-gold{animation:aura-gold 2s infinite ease-in-out}
+.element{position:absolute;cursor:default!important}
+.el-btn{padding:10px 22px;border-radius:9px;background:linear-gradient(135deg,#7c5cfc,#c084fc);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(124,92,252,0.35);display:inline-block}
+.el-text{font-family:inherit;font-size:16px;color:#111;padding:4px}
+</style>
+</head><body style="background:white">
+<div class="element el-text aura" data-type="heading" contenteditable="true" style="left: 360px; top: 100px; font-size: 32px; font-weight: 700; color: rgb(17, 17, 17);">Hello Welcome To My Site!</div><img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" class="element el-img aura-fire float" data-type="image" style="left: 320px; top: 520px; width: 500px; height: 200px;"><div class="element el-btn" data-type="button" data-link="https://www.youtube.com/@Kubaxone" style="left: 520px; top: 280px; width: 80px; height: 40px; cursor: pointer;" onclick="window.open('https://www.youtube.com/@Kubaxone')">Cool!</div><div class="element el-text" data-type="text" contenteditable="true" style="left: 440px; top: 180px;">Hello Good Friends This Is A Cool Site</div><div class="element el-text" data-type="text" contenteditable="true" style="left: 480px; top: 200px;">Check Out My Other Sites&nbsp;<div><br></div></div><div class="element el-text" data-type="text" contenteditable="true" style="left: 480px; top: 240px;">(dont do /fileexplorer2)</div><div class="element el-btn" data-type="button" data-link="#" style="left: -280px; top: 340px; width: 60px; height: 20px; cursor: pointer;">HTML Designer! </div><div class="element el-btn" data-type="button" data-link="https://lol.kubaxones.publicvm.com/htmldesigner" style="left: 80px; top: 100px; width: 260px; cursor: pointer;" onclick="window.open('https://lol.kubaxones.publicvm.com/htmldesigner')">HTML Designer (FIXED BUTTON)</div><div class="element el-btn spin" data-type="button" data-link="#" style="left: 1160px; top: 520px; width: 40px; height: 20px; cursor: pointer;">Free Movies</div><div class="element el-btn" data-type="button" data-link="https://kubaxone.github.io/Kubaflix-Free-Streaming/" style="left: 100px; top: 160px; width: 200px; height: 40px; cursor: pointer;" onclick="window.open('https://kubaxone.github.io/Kubaflix-Free-Streaming/')">My Free Movie Streaming</div><div class="element el-btn" data-type="button" data-link="https://lol.kubaxones.publicvm.com/oldindex.html" style="left: 500px; top: 460px; cursor: pointer;" onclick="window.open('https://lol.kubaxones.publicvm.com/oldindex.html')">Old Home Site</div><div class="element el-btn" data-type="button" data-link="https://lol.kubaxones.publicvm.com/coolaaa" style="left: 980px; top: 100px; cursor: pointer;" onclick="window.open('https://lol.kubaxones.publicvm.com/coolaaa')">frist version made</div>
+</body></html>
