@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ping</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #222222;
+    --text: #f0f0f0;
+    --muted: #555;
+    --green: #00e676;
+    --amber: #ffab40;
+    --red: #ff5252;
+    --accent: #00e676;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .title {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .title span {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .target-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  .target-label { color: var(--muted); }
+  .target-host { color: var(--accent); }
+  .target-sep { color: var(--border); }
+  .target-count { color: var(--muted); margin-left: auto; }
+
+  #pingBtn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #pingBtn:hover:not(:disabled) {
+    background: var(--accent);
+    color: #0a0a0a;
+  }
+
+  #pingBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  #pingBtn.running {
+    border-color: var(--muted);
+    color: var(--muted);
+  }
+
+  .results {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ping-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s, border-color 0.3s;
+  }
+
+  .ping-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ping-row.done-ok  { border-color: #1a3d2a; }
+  .ping-row.done-slow { border-color: #3d2e10; }
+  .ping-row.done-fail { border-color: #3d1414; }
+
+  .seq { color: var(--muted); min-width: 28px; font-size: 11px; }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .dot.pinging { background: var(--amber); animation: blink 0.6s infinite; }
+  .dot.ok   { background: var(--green); }
+  .dot.slow { background: var(--amber); }
+  .dot.fail { background: var(--red); }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .host { flex: 1; color: #888; }
+
+  .latency { font-weight: 600; font-size: 13px; min-width: 70px; text-align: right; }
+  .latency.ok   { color: var(--green); }
+  .latency.slow { color: var(--amber); }
+  .latency.fail { color: var(--red); }
+  .latency.pending { color: var(--muted); }
+
+  .bar-wrap { width: 60px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .bar { height: 100%; border-radius: 2px; width: 0; transition: width 0.4s; }
+  .bar.ok   { background: var(--green); }
+  .bar.slow { background: var(--amber); }
+  .bar.fail { background: var(--red); }
+
+  .summary {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .summary.visible { opacity: 1; }
+
+  .stat {
+    flex: 1;
+    padding: 10px 14px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-label { font-size: 9px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .stat-val { font-size: 16px; font-weight: 600; color: var(--text); }
+
+  .footer {
+    margin-top: 1.5rem;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="title">PING<span>.</span></div>
+    <div class="subtitle">HTTP latency checker</div>
+  </div>
+
+  <div class="target-bar">
+    <span class="target-label">target</span>
+    <span class="target-sep">//</span>
+    <span class="target-host">example.com</span>
+    <span class="target-count">5 requests</span>
+  </div>
+
+  <button id="pingBtn" onclick="runPing()">▶ Run Ping</button>
+
+  <div class="results" id="results"></div>
+
+  <div class="summary" id="summary">
+    <div class="stat"><span class="stat-label">avg</span><span class="stat-val" id="s-avg">—</span></div>
+    <div class="stat"><span class="stat-label">min</span><span class="stat-val" id="s-min">—</span></div>
+    <div class="stat"><span class="stat-label">max</span><span class="stat-val" id="s-max">—</span></div>
+    <div class="stat"><span class="stat-label">loss</span><span class="stat-val" id="s-loss">—</span></div>
+  </div>
+
+  <div class="footer">HTTP HEAD · no-cors · results include TCP + server overhead</div>
+</div>
+
+<script>
+async function runPing() {
+  const btn = document.getElementById('pingBtn');
+  const resultsEl = document.getElementById('results');
+  const summaryEl = document.getElementById('summary');
+  btn.disabled = true;
+  btn.classList.add('running');
+  btn.textContent = '... pinging';
+  resultsEl.innerHTML = '';
+  summaryEl.classList.remove('visible');
+
+  const maxMs = 1500;
+  const rows = [], dots = [], latEls = [], bars = [];
+
+  for (let i = 0; i < 5; i++) {
+    const row = document.createElement('div');
+    row.className = 'ping-row';
+    row.innerHTML = `
+      <span class="seq">#${i+1}</span>
+      <span class="dot" id="dot${i}"></span>
+      <span class="host">example.com</span>
+      <div class="bar-wrap"><div class="bar" id="bar${i}"></div></div>
+      <span class="latency pending" id="lat${i}">—</span>
+    `;
+    resultsEl.appendChild(row);
+    setTimeout(() => row.classList.add('visible'), i * 60);
+    rows.push(row);
+    dots.push(row.querySelector(`#dot${i}`));
+    latEls.push(row.querySelector(`#lat${i}`));
+    bars.push(row.querySelector(`#bar${i}`));
+  }
+
+  await new Promise(r => setTimeout(r, 350));
+  const times = [];
+
+  for (let i = 0; i < 5; i++) {
+    dots[i].className = 'dot pinging';
+    latEls[i].textContent = '...';
+
+    try {
+      const t0 = performance.now();
+      await fetch('https://example.com', { method: 'HEAD', mode: 'no-cors', cache: 'no-store' });
+      const ms = Math.round(performance.now() - t0);
+      times.push(ms);
+
+      const cls = ms < 200 ? 'ok' : ms < 600 ? 'slow' : 'slow';
+      const rowCls = ms < 200 ? 'done-ok' : 'done-slow';
+      dots[i].className = `dot ${cls}`;
+      latEls[i].className = `latency ${cls}`;
+      latEls[i].textContent = `${ms}ms`;
+      bars[i].className = `bar ${cls}`;
+      bars[i].style.width = Math.min(100, Math.round((ms / maxMs) * 100)) + '%';
+      rows[i].classList.add(rowCls);
+    } catch(e) {
+      dots[i].className = 'dot fail';
+      latEls[i].className = 'latency fail';
+      latEls[i].textContent = 'fail';
+      rows[i].classList.add('done-fail');
+    }
+
+    if (i < 4) await new Promise(r => setTimeout(r, 280));
+  }
+
+  if (times.length > 0) {
+    const avg = Math.round(times.reduce((a,b)=>a+b,0)/times.length);
+    document.getElementById('s-avg').textContent = avg + 'ms';
+    document.getElementById('s-min').textContent = Math.min(...times) + 'ms';
+    document.getElementById('s-max').textContent = Math.max(...times) + 'ms';
+  }
+  document.getElementById('s-loss').textContent = (5 - times.length) + '/5';
+  summaryEl.classList.add('visible');
+
+  btn.disabled = false;
+  btn.classList.remove('running');
+  btn.textContent = '▶ Run Again';
+}
+</script>
+</body>
+</html>
