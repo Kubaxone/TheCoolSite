@@ -10,17 +10,18 @@
 body { font-family: 'DM Sans', sans-serif; background: #f5f6f8; color: #1a1d23; min-height: 100vh; }
 header { background: #fff; border-bottom: 1px solid #e4e6ea; padding: 0 24px; }
 .header-inner { max-width: 960px; margin: 0 auto; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-.logo { font-size: 17px; font-weight: 700; color: #1a1d23; letter-spacing: -0.3px; }
+.logo { font-size: 17px; font-weight: 700; color: #1a1d23; }
 .logo span { color: #2563eb; }
 .header-note { font-size: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
 main { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
 .ip-hero { background: #fff; border: 1px solid #e4e6ea; border-radius: 12px; padding: 32px 36px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .ip-hero-label { font-size: 12px; font-weight: 600; color: #9ca3af; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
-.ip-value { font-family: 'DM Mono', monospace; font-size: clamp(26px,4vw,38px); font-weight: 500; color: #1a1d23; letter-spacing: -0.5px; }
+.ip-value { font-family: 'DM Mono', monospace; font-size: clamp(26px,4vw,38px); font-weight: 500; color: #1a1d23; }
 .ip-value.loading { color: #d1d5db; }
 .ip-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
 .pill.danger { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+.pill.warn   { background: #fffbeb; border-color: #fcd34d; color: #d97706; }
 .verdict-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 160px; padding: 18px 28px; border-radius: 10px; text-align: center; flex-shrink: 0; }
 .verdict-badge.human      { background: #f0fdf4; border: 1.5px solid #86efac; }
 .verdict-badge.robot      { background: #fef2f2; border: 1.5px solid #fca5a5; }
@@ -33,23 +34,26 @@ main { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
 .verdict-badge.suspicious .verdict-label  { color: #d97706; }
 .verdict-badge.loading-state .verdict-label { color: #9ca3af; }
 .verdict-score { font-size: 12px; font-weight: 500; margin-top: 3px; opacity: 0.75; }
-.verdict-badge.human .verdict-score       { color: #16a34a; }
-.verdict-badge.robot .verdict-score       { color: #dc2626; }
-.verdict-badge.suspicious .verdict-score  { color: #d97706; }
+.verdict-badge.human .verdict-score      { color: #16a34a; }
+.verdict-badge.robot .verdict-score      { color: #dc2626; }
+.verdict-badge.suspicious .verdict-score { color: #d97706; }
 .score-section { background: #fff; border: 1px solid #e4e6ea; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
 .score-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .score-title { font-size: 13px; font-weight: 600; color: #374151; }
 .score-num { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: #6b7280; }
 .bar-track { height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 4px; transition: width 0.9s cubic-bezier(.4,0,.2,1), background 0.5s; width: 0%; background: #2563eb; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.9s cubic-bezier(.4,0,.2,1), background 0.5s; width: 0%; }
 .score-caption { font-size: 12px; color: #9ca3af; margin-top: 6px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
+.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+@media (max-width: 780px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+.grid .card:first-child { grid-column: span 1; }
 .card { background: #fff; border: 1px solid #e4e6ea; border-radius: 12px; overflow: hidden; }
 .card-header { padding: 14px 20px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 8px; }
 .card-header-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-.icon-blue { background: #eff6ff; }
+.icon-blue   { background: #eff6ff; }
 .icon-purple { background: #f5f3ff; }
+.icon-orange { background: #fff7ed; }
 .card-title { font-size: 14px; font-weight: 600; color: #1a1d23; }
 .card-subtitle { font-size: 11px; color: #9ca3af; margin-left: auto; }
 .card-subtitle.issues { color: #dc2626; font-weight: 600; }
@@ -61,6 +65,8 @@ main { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
 .dot-pass { background: #22c55e; }
 .dot-fail { background: #ef4444; }
 .dot-warn { background: #f59e0b; }
+.dot-idle { background: #d1d5db; animation: blink 1.2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 .check-info { flex: 1; min-width: 0; }
 .check-name { font-size: 13px; font-weight: 500; color: #374151; }
 .check-detail { font-size: 11.5px; color: #9ca3af; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -71,20 +77,33 @@ main { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
 .tag-pass { background: #f0fdf4; color: #16a34a; }
 .tag-fail { background: #fef2f2; color: #dc2626; }
 .tag-warn { background: #fffbeb; color: #d97706; }
+.tag-idle { background: #f3f4f6; color: #9ca3af; }
+
+/* API sources legend */
+.sources-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.source-chip { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; border: 1px solid #e5e7eb; color: #6b7280; background: #fff; display: flex; align-items: center; gap: 5px; }
+.source-chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+.dot-green  { background: #22c55e; }
+.dot-blue   { background: #3b82f6; }
+.dot-orange { background: #f97316; }
+
 @keyframes shimmer { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
 .shimmer { background: linear-gradient(90deg,#f3f4f6 25%,#e9ebee 50%,#f3f4f6 75%); background-size:800px 100%; animation:shimmer 1.4s infinite; border-radius:4px; height:12px; display:block; }
 footer { text-align:center; padding:24px; font-size:12px; color:#d1d5db; }
 footer strong { color:#9ca3af; }
+footer a { color: #9ca3af; }
 </style>
 </head>
 <body>
 <header>
   <div class="header-inner">
     <div class="logo">Am I a <span>Robot?</span></div>
-    <div class="header-note">🔒 No data sent — client-side only</div>
+    <div class="header-note">🔒 No data sent to us — API calls only</div>
   </div>
 </header>
 <main>
+
+  <!-- IP Hero -->
   <div class="ip-hero">
     <div class="ip-hero-left">
       <div class="ip-hero-label">Your IP Address</div>
@@ -101,6 +120,8 @@ footer strong { color:#9ca3af; }
       <div class="verdict-score" id="v-score"></div>
     </div>
   </div>
+
+  <!-- Score bar -->
   <div class="score-section">
     <div class="score-header">
       <div class="score-title">Bot Probability Score</div>
@@ -109,11 +130,38 @@ footer strong { color:#9ca3af; }
     <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
     <div class="score-caption" id="score-caption">Running checks…</div>
   </div>
+
+  <!-- Source legend -->
+  <div class="sources-bar">
+    <div class="source-chip"><span class="dot dot-blue"></span> ip-api.com — geolocation + proxy/VPN/hosting flags</div>
+    <div class="source-chip"><span class="dot dot-orange"></span> ipwho.is — abuse &amp; threat intel</div>
+    <div class="source-chip"><span class="dot dot-green"></span> Local CIDR &amp; ASN matching</div>
+  </div>
+
+  <!-- Cards -->
   <div class="grid">
+    <!-- API Reputation -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon icon-orange">📡</div>
+        <div class="card-title">API Reputation</div>
+        <div class="card-subtitle" id="api-count">Loading…</div>
+      </div>
+      <div class="check-list" id="api-checks">
+        <div class="check-row"><span class="shimmer" style="width:100%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:85%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:90%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:75%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:95%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:80%"></span></div>
+      </div>
+    </div>
+
+    <!-- IP CIDR checks -->
     <div class="card">
       <div class="card-header">
         <div class="card-header-icon icon-blue">🌐</div>
-        <div class="card-title">IP Reputation</div>
+        <div class="card-title">IP Range Check</div>
         <div class="card-subtitle" id="ip-count"></div>
       </div>
       <div class="check-list" id="ip-checks">
@@ -124,6 +172,8 @@ footer strong { color:#9ca3af; }
         <div class="check-row"><span class="shimmer" style="width:85%"></span></div>
       </div>
     </div>
+
+    <!-- Browser fingerprint -->
     <div class="card">
       <div class="card-header">
         <div class="card-header-icon icon-purple">🖥️</div>
@@ -139,256 +189,268 @@ footer strong { color:#9ca3af; }
       </div>
     </div>
   </div>
+
 </main>
-<footer>All checks run in your browser. <strong>Nothing is sent to any server.</strong></footer>
+<footer>
+  IP data from <a href="https://ip-api.com" target="_blank">ip-api.com</a> &amp; <a href="https://ipwho.is" target="_blank">ipwho.is</a>. 
+  <strong>We don't store anything.</strong>
+</footer>
 
 <script>
-// ─── IP Ranges ────────────────────────────────────────────────────────────────
-// Each entry: label, CIDR, type, and optional asn for ASN-based matching
+// ─── CIDR ranges ──────────────────────────────────────────────────────────────
 const RANGES = [
-  // Internet Archive
-  {label:'Internet Archive',     cidr:'207.241.224.0/20', type:'crawler'},
-  {label:'Internet Archive',     cidr:'207.241.226.0/24', type:'crawler'},
-  {label:'Internet Archive',     cidr:'208.70.25.0/24',   type:'crawler'},
-  // Discord embed crawler
-  {label:'Discord Crawler',      cidr:'35.196.132.0/24',  type:'crawler'},
-  {label:'Discord Crawler',      cidr:'104.196.0.0/16',   type:'crawler'},
-  {label:'Discord Crawler',      cidr:'66.22.196.0/24',   type:'crawler'},
-  // browser.lol — known EU proxy/remote-browser IPs
-  {label:'browser.lol EU',       cidr:'185.220.101.0/24', type:'proxy'},
-  {label:'browser.lol EU',       cidr:'185.220.100.0/24', type:'proxy'},
-  {label:'browser.lol EU',       cidr:'45.142.212.0/24',  type:'proxy'},
-  {label:'browser.lol EU',       cidr:'45.142.213.0/24',  type:'proxy'},
-  // UK ISPs
-  {label:'BT UK',                cidr:'81.132.0.0/14',    type:'isp'},
-  {label:'Virgin Media UK',      cidr:'82.30.0.0/16',     type:'isp'},
-  {label:'Sky UK',               cidr:'86.133.0.0/16',    type:'isp'},
-  {label:'UK Datacenter',        cidr:'5.148.0.0/16',     type:'dc'},
-  {label:'JANET UK Academic',    cidr:'193.63.0.0/16',    type:'academic'},
-  // Hetzner — full allocation (46.62.186.28 is in 46.62.0.0/16)
-  {label:'Hetzner Online',       cidr:'46.4.0.0/16',      type:'cloud'},
-  {label:'Hetzner Online',       cidr:'46.62.0.0/16',     type:'cloud'},
-  {label:'Hetzner Online',       cidr:'78.46.0.0/15',     type:'cloud'},
-  {label:'Hetzner Online',       cidr:'88.198.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'95.216.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'116.202.0.0/15',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'136.243.0.0/16',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'138.201.0.0/16',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'144.76.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'148.251.0.0/16',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'157.90.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'159.69.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'167.235.0.0/16',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'168.119.0.0/16',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'176.9.0.0/16',     type:'cloud'},
-  {label:'Hetzner Online',       cidr:'178.63.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'188.40.0.0/16',    type:'cloud'},
-  {label:'Hetzner Online',       cidr:'193.148.18.0/24',  type:'cloud'},
-  {label:'Hetzner Online',       cidr:'195.201.0.0/16',   type:'cloud'},
-  {label:'Hetzner Online',       cidr:'213.133.96.0/19',  type:'cloud'},
-  // Other major cloud / hosting
-  {label:'AWS us-east-1',        cidr:'52.0.0.0/11',      type:'cloud'},
-  {label:'AWS eu-west',          cidr:'54.72.0.0/13',     type:'cloud'},
-  {label:'AWS eu-central',       cidr:'35.156.0.0/14',    type:'cloud'},
-  {label:'Google Cloud',         cidr:'34.0.0.0/9',       type:'cloud'},
-  {label:'Google Cloud',         cidr:'35.184.0.0/13',    type:'cloud'},
-  {label:'Cloudflare',           cidr:'104.16.0.0/12',    type:'cdn'},
-  {label:'Cloudflare',           cidr:'172.64.0.0/13',    type:'cdn'},
-  {label:'DigitalOcean',         cidr:'167.99.0.0/16',    type:'cloud'},
-  {label:'DigitalOcean',         cidr:'134.209.0.0/16',   type:'cloud'},
-  {label:'Linode/Akamai',        cidr:'172.104.0.0/14',   type:'cloud'},
-  {label:'Linode/Akamai',        cidr:'139.162.0.0/16',   type:'cloud'},
-  {label:'OVH',                  cidr:'151.80.0.0/14',    type:'cloud'},
-  {label:'OVH',                  cidr:'54.36.0.0/14',     type:'cloud'},
-  {label:'Vultr',                cidr:'45.32.0.0/16',     type:'cloud'},
-  {label:'Scaleway',             cidr:'212.129.0.0/18',   type:'cloud'},
-  // Tor
-  {label:'Tor Network',          cidr:'176.10.99.0/24',   type:'anonymizer'},
-  {label:'Tor Network',          cidr:'62.102.148.0/24',  type:'anonymizer'},
+  {label:'Internet Archive',  cidr:'207.241.224.0/20', type:'crawler'},
+  {label:'Internet Archive',  cidr:'207.241.226.0/24', type:'crawler'},
+  {label:'Internet Archive',  cidr:'208.70.25.0/24',   type:'crawler'},
+  {label:'Discord Crawler',   cidr:'35.196.132.0/24',  type:'crawler'},
+  {label:'Discord Crawler',   cidr:'104.196.0.0/16',   type:'crawler'},
+  {label:'Discord Crawler',   cidr:'66.22.196.0/24',   type:'crawler'},
+  {label:'browser.lol EU',    cidr:'185.220.101.0/24', type:'proxy'},
+  {label:'browser.lol EU',    cidr:'185.220.100.0/24', type:'proxy'},
+  {label:'browser.lol EU',    cidr:'45.142.212.0/24',  type:'proxy'},
+  {label:'browser.lol EU',    cidr:'45.142.213.0/24',  type:'proxy'},
+  {label:'BT UK',             cidr:'81.132.0.0/14',    type:'isp'},
+  {label:'Virgin Media UK',   cidr:'82.30.0.0/16',     type:'isp'},
+  {label:'Sky UK',            cidr:'86.133.0.0/16',    type:'isp'},
+  {label:'UK Datacenter',     cidr:'5.148.0.0/16',     type:'dc'},
+  {label:'JANET UK Academic', cidr:'193.63.0.0/16',    type:'academic'},
+  {label:'Hetzner Online',    cidr:'46.4.0.0/16',      type:'cloud'},
+  {label:'Hetzner Online',    cidr:'46.62.0.0/16',     type:'cloud'},
+  {label:'Hetzner Online',    cidr:'78.46.0.0/15',     type:'cloud'},
+  {label:'Hetzner Online',    cidr:'88.198.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'95.216.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'116.202.0.0/15',   type:'cloud'},
+  {label:'Hetzner Online',    cidr:'136.243.0.0/16',   type:'cloud'},
+  {label:'Hetzner Online',    cidr:'138.201.0.0/16',   type:'cloud'},
+  {label:'Hetzner Online',    cidr:'144.76.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'148.251.0.0/16',   type:'cloud'},
+  {label:'Hetzner Online',    cidr:'157.90.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'159.69.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'167.235.0.0/16',   type:'cloud'},
+  {label:'Hetzner Online',    cidr:'168.119.0.0/16',   type:'cloud'},
+  {label:'Hetzner Online',    cidr:'176.9.0.0/16',     type:'cloud'},
+  {label:'Hetzner Online',    cidr:'178.63.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'188.40.0.0/16',    type:'cloud'},
+  {label:'Hetzner Online',    cidr:'195.201.0.0/16',   type:'cloud'},
+  {label:'AWS us-east-1',     cidr:'52.0.0.0/11',      type:'cloud'},
+  {label:'AWS eu-west',       cidr:'54.72.0.0/13',     type:'cloud'},
+  {label:'AWS eu-central',    cidr:'35.156.0.0/14',    type:'cloud'},
+  {label:'Google Cloud',      cidr:'34.0.0.0/9',       type:'cloud'},
+  {label:'Google Cloud',      cidr:'35.184.0.0/13',    type:'cloud'},
+  {label:'Cloudflare',        cidr:'104.16.0.0/12',    type:'cdn'},
+  {label:'Cloudflare',        cidr:'172.64.0.0/13',    type:'cdn'},
+  {label:'DigitalOcean',      cidr:'167.99.0.0/16',    type:'cloud'},
+  {label:'DigitalOcean',      cidr:'134.209.0.0/16',   type:'cloud'},
+  {label:'Linode/Akamai',     cidr:'172.104.0.0/14',   type:'cloud'},
+  {label:'Linode/Akamai',     cidr:'139.162.0.0/16',   type:'cloud'},
+  {label:'OVH',               cidr:'151.80.0.0/14',    type:'cloud'},
+  {label:'Vultr',             cidr:'45.32.0.0/16',     type:'cloud'},
+  {label:'Scaleway',          cidr:'212.129.0.0/18',   type:'cloud'},
+  {label:'Tor Network',       cidr:'176.10.99.0/24',   type:'anonymizer'},
+  {label:'Tor Network',       cidr:'62.102.148.0/24',  type:'anonymizer'},
 ];
-
-// ASN keywords — matched against the org string from ipapi
 const CLOUD_ASN_KEYWORDS = [
   'hetzner','amazon','google','digitalocean','linode','akamai','vultr','ovh',
   'scaleway','cloudflare','microsoft azure','azure','rackspace','leaseweb',
-  'server4you','contabo','netcup','ionos','1&1','strato','host europe',
-  'zscaler','fastly','cdn77','datacamp','m247','cogent','hurricane electric',
-  'choopa','as-choopa','peg tech','tzulo','krypt','quadranet','sharktech',
-  'psychz','hostwinds','nexeon','incapsula','imperva','sucuri','blazingfast',
-  'combahton','serverius','serverplan','webhost','wholesaleinternet',
-  'browser.lol','remote.it','anydesk','teamviewer','netzoptiker',
-  'tor project','torservers','privax','mullvad','nordvpn','expressvpn',
+  'contabo','netcup','ionos','1&1','strato','host europe','zscaler','fastly',
+  'choopa','quadranet','sharktech','psychz','hostwinds','combahton','serverius',
+  'browser.lol','anydesk','teamviewer','mullvad','nordvpn','expressvpn',
   'protonvpn','ipvanish','cyberghost','windscribe','surfshark','hidemyass',
-  'privateinternetaccess','pia','perfect privacy','vpn unlimited','zenmate',
+  'privateinternetaccess','perfect privacy','vpn unlimited','zenmate',
+  'm247','cogent','hurricane electric','datacamp','incapsula','imperva','sucuri',
 ];
-
-const CRAWLER_UA_PATTERN = /Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|ia_archiver|archive\.org_bot|Discordbot|Twitterbot|LinkedInBot|TelegramBot|facebookexternalhit|Applebot|SemrushBot|AhrefsBot|MJ12bot|DotBot|PetalBot|BLEXBot|DataForSeoBot|MegaIndex|SiteAuditBot|serpstatbot/i;
-const HEADLESS_UA_PATTERN = /HeadlessChrome|PhantomJS|SlimerJS|Playwright|Puppeteer|selenium|webdriver/i;
+const CRAWLER_UA = /Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|ia_archiver|archive\.org_bot|Discordbot|Twitterbot|LinkedInBot|TelegramBot|facebookexternalhit|Applebot|SemrushBot|AhrefsBot|MJ12bot|DotBot|PetalBot|DataForSeoBot/i;
+const HEADLESS_UA = /HeadlessChrome|PhantomJS|SlimerJS|Playwright|Puppeteer|selenium|webdriver/i;
 
 function ipToInt(ip){return ip.split('.').reduce((a,o)=>(a<<8)+parseInt(o,10),0)>>>0;}
-function inCIDR(ip,cidr){
-  try{
-    const[r,b]=cidr.split('/');
-    const mask=b==='32'?0xFFFFFFFF:(~0<<(32-+b))>>>0;
-    return(ipToInt(ip)&mask)===(ipToInt(r)&mask);
-  }catch{return false;}
-}
-function matchRanges(ip){
-  if(!ip||ip.includes(':'))return[];
-  return RANGES.filter(r=>inCIDR(ip,r.cidr));
-}
-function matchASN(org){
-  if(!org)return null;
-  const o=org.toLowerCase();
-  return CLOUD_ASN_KEYWORDS.find(k=>o.includes(k))||null;
-}
+function inCIDR(ip,cidr){try{const[r,b]=cidr.split('/');const mask=b==='32'?0xFFFFFFFF:(~0<<(32-+b))>>>0;return(ipToInt(ip)&mask)===(ipToInt(r)&mask);}catch{return false;}}
+function matchRanges(ip){if(!ip||ip.includes(':'))return[];return RANGES.filter(r=>inCIDR(ip,r.cidr));}
+function matchASN(org){if(!org)return null;const o=org.toLowerCase();return CLOUD_ASN_KEYWORDS.find(k=>o.includes(k))||null;}
 
-// ─── Browser checks ───────────────────────────────────────────────────────────
-function getBrowserChecks(){
-  const ua=navigator.userAgent||'';const res=[];
-  const headless=HEADLESS_UA_PATTERN.test(ua);
-  res.push({name:'Headless Browser',pass:!headless,
-    detail:headless?(ua.match(HEADLESS_UA_PATTERN)?.[0]||'Detected'):'Not detected',
-    weight:headless?40:0});
-  const botUA=CRAWLER_UA_PATTERN.test(ua);
-  const botName=ua.match(CRAWLER_UA_PATTERN)?.[0];
-  res.push({name:'Crawler User-Agent',pass:!botUA,
-    detail:botUA?botName:'Standard browser UA',
-    weight:botUA?50:0});
-  let webgl=false;
-  try{const c=document.createElement('canvas');webgl=!!(c.getContext('webgl')||c.getContext('experimental-webgl'));}catch{}
-  res.push({name:'WebGL Support',pass:webgl,
-    detail:webgl?'Supported':'Not available — suspicious',
-    weight:webgl?0:10});
-  const zeroScreen=window.screen.width===0||window.screen.height===0;
-  res.push({name:'Screen Resolution',pass:!zeroScreen,
-    detail:zeroScreen?'0×0 (headless)':window.screen.width+'×'+window.screen.height,
-    weight:zeroScreen?20:0});
-  const noPlugins=navigator.plugins.length===0;
-  res.push({name:'Browser Plugins',pass:!noPlugins,
-    detail:noPlugins?'None (headless indicator)':navigator.plugins.length+' found',
-    weight:noPlugins?8:0});
-  const noLang=!navigator.language;
-  res.push({name:'Language Setting',pass:!noLang,
-    detail:noLang?'Not set':navigator.language,
-    weight:noLang?5:0});
-  const isMobile=/Mobi|Android|iPhone/i.test(ua);
-  const hasTouch='ontouchstart'in window||navigator.maxTouchPoints>0;
-  const mismatch=isMobile&&!hasTouch;
-  res.push({name:'Touch Consistency',pass:!mismatch,
-    detail:mismatch?'Mobile UA but no touch API':(isMobile?'Mobile + touch OK':'Desktop — normal'),
-    weight:mismatch?15:0});
-  return res;
-}
-
-// ─── Render ───────────────────────────────────────────────────────────────────
+// ─── Row builder ──────────────────────────────────────────────────────────────
 function makeRow(c){
-  const dot=c.pass?'dot-pass':(c.weight>=25?'dot-fail':'dot-warn');
-  const tag=c.pass?'tag-pass':(c.weight>=25?'tag-fail':'tag-warn');
-  const txt=c.pass?'PASS':(c.weight>=25?'FAIL':'WARN');
-  const dcls=c.pass?'pass':(c.weight>=25?'fail':'warn');
+  const dot = c.loading ? 'dot-idle' : c.pass ? 'dot-pass' : c.weight>=25 ? 'dot-fail' : 'dot-warn';
+  const tag = c.loading ? 'tag-idle' : c.pass ? 'tag-pass' : c.weight>=25 ? 'tag-fail' : 'tag-warn';
+  const txt = c.loading ? '…' : c.pass ? 'PASS' : c.weight>=25 ? 'FAIL' : 'WARN';
+  const dcls= c.loading ? '' : c.pass ? 'pass' : c.weight>=25 ? 'fail' : 'warn';
   const div=document.createElement('div');div.className='check-row';
   div.innerHTML=`<div class="status-dot ${dot}"></div><div class="check-info"><div class="check-name">${c.name}</div><div class="check-detail ${dcls}">${c.detail}</div></div><div class="check-tag ${tag}">${txt}</div>`;
   return div;
 }
 
-function renderIPChecks(matches, asnMatch){
-  const isCloud=matches.some(m=>m.type==='cloud'||m.type==='dc')||!!asnMatch;
-  const cloudLabel=matches.filter(m=>m.type==='cloud'||m.type==='dc').map(m=>m.label)[0]||(asnMatch?'ASN: '+asnMatch:null);
-  const isCrawler=matches.some(m=>m.type==='crawler');
-  const crawlerLabel=matches.filter(m=>m.type==='crawler').map(m=>m.label).join(', ')||'No crawler range match';
-  const isProxy=matches.some(m=>m.type==='proxy'||m.type==='anonymizer');
-  const proxyLabel=matches.filter(m=>m.type==='proxy'||m.type==='anonymizer').map(m=>m.label).join(', ')||'No proxy IP detected';
-  const isBlacklisted=matches.length>0||!!asnMatch;
-  const blacklistDetail=isBlacklisted?[...new Set(matches.map(m=>m.label))].join(', ')||(asnMatch?'ASN match: '+asnMatch:''):'Not on any list';
+function setCount(elId, checks){
+  const f=checks.filter(c=>!c.pass&&!c.loading).length;
+  const el=document.getElementById(elId);
+  el.textContent=f?f+' issue'+(f>1?'s':''):'All clear';
+  el.className=f?'card-subtitle issues':'card-subtitle';
+}
 
+// ─── Browser checks ───────────────────────────────────────────────────────────
+function getBrowserChecks(){
+  const ua=navigator.userAgent||'';const res=[];
+  const headless=HEADLESS_UA.test(ua);
+  res.push({name:'Headless Browser',pass:!headless,detail:headless?(ua.match(HEADLESS_UA)?.[0]||'Detected'):'Not detected',weight:headless?40:0});
+  const botUA=CRAWLER_UA.test(ua);
+  res.push({name:'Crawler User-Agent',pass:!botUA,detail:botUA?(ua.match(CRAWLER_UA)?.[0]):'Standard browser UA',weight:botUA?50:0});
+  let webgl=false;try{const c=document.createElement('canvas');webgl=!!(c.getContext('webgl')||c.getContext('experimental-webgl'));}catch{}
+  res.push({name:'WebGL Support',pass:webgl,detail:webgl?'Supported':'Not available',weight:webgl?0:10});
+  const zeroScreen=window.screen.width===0||window.screen.height===0;
+  res.push({name:'Screen Resolution',pass:!zeroScreen,detail:zeroScreen?'0×0 (headless)':window.screen.width+'×'+window.screen.height,weight:zeroScreen?20:0});
+  const noPlugins=navigator.plugins.length===0;
+  res.push({name:'Browser Plugins',pass:!noPlugins,detail:noPlugins?'None (headless indicator)':navigator.plugins.length+' found',weight:noPlugins?8:0});
+  const noLang=!navigator.language;
+  res.push({name:'Language Setting',pass:!noLang,detail:noLang?'Not set':navigator.language,weight:noLang?5:0});
+  const isMobile=/Mobi|Android|iPhone/i.test(ua);const hasTouch='ontouchstart'in window||navigator.maxTouchPoints>0;const mismatch=isMobile&&!hasTouch;
+  res.push({name:'Touch Consistency',pass:!mismatch,detail:mismatch?'Mobile UA but no touch API':(isMobile?'Mobile + touch OK':'Desktop — normal'),weight:mismatch?15:0});
+  return res;
+}
+
+// ─── CIDR/ASN checks ─────────────────────────────────────────────────────────
+function renderIPChecks(ip, matches, asnMatch){
+  const isCloud=matches.some(m=>m.type==='cloud'||m.type==='dc')||!!asnMatch;
+  const cloudLabel=matches.filter(m=>m.type==='cloud'||m.type==='dc').map(m=>m.label)[0]||(asnMatch?asnMatch:null);
+  const isCrawler=matches.some(m=>m.type==='crawler');
+  const isProxy=matches.some(m=>m.type==='proxy'||m.type==='anonymizer');
+  const isBlacklisted=matches.length>0||!!asnMatch;
   const checks=[
-    {name:'Blacklist Match',       pass:!isBlacklisted,  detail:blacklistDetail,                          weight:isBlacklisted?25:0},
-    {name:'Cloud / Datacenter IP', pass:!isCloud,        detail:cloudLabel||'Residential / ISP range',    weight:isCloud?30:0},
-    {name:'Known Crawler IP',      pass:!isCrawler,      detail:crawlerLabel,                             weight:isCrawler?35:0},
-    {name:'Proxy / Anonymizer',    pass:!isProxy,        detail:proxyLabel,                               weight:isProxy?30:0},
-    {name:'Hosting Provider',      pass:!asnMatch&&!isCloud, detail:asnMatch?'Org matches: '+asnMatch:'Not a known hosting org', weight:(asnMatch||isCloud)?20:0},
+    {name:'CIDR Blacklist',       pass:!isBlacklisted,  detail:isBlacklisted?[...new Set(matches.map(m=>m.label))].join(', ')||(asnMatch||''):'Not on any list',                weight:isBlacklisted?25:0},
+    {name:'Cloud / Datacenter',   pass:!isCloud,        detail:cloudLabel||'Residential / ISP range',                                                                             weight:isCloud?30:0},
+    {name:'Known Crawler Range',  pass:!isCrawler,      detail:matches.filter(m=>m.type==='crawler').map(m=>m.label).join(', ')||'No crawler range match',                       weight:isCrawler?35:0},
+    {name:'Proxy / Anonymizer',   pass:!isProxy,        detail:matches.filter(m=>m.type==='proxy'||m.type==='anonymizer').map(m=>m.label).join(', ')||'No proxy IP detected',   weight:isProxy?30:0},
+    {name:'ASN/Org Match',        pass:!asnMatch,       detail:asnMatch?'Org matches: '+asnMatch:'Not a known hosting org',                                                       weight:asnMatch?20:0},
   ];
   const cont=document.getElementById('ip-checks');cont.innerHTML='';checks.forEach(c=>cont.appendChild(makeRow(c)));
-  const f=checks.filter(c=>!c.pass).length;
-  const el=document.getElementById('ip-count');
-  el.textContent=f?f+' issue'+(f>1?'s':''):'All clear';
-  if(f)el.className='card-subtitle issues';
+  setCount('ip-count',checks);
   return checks.reduce((a,c)=>a+(c.weight||0),0);
 }
 
-function renderBrChecks(){
-  const checks=getBrowserChecks();
-  const cont=document.getElementById('br-checks');cont.innerHTML='';checks.forEach(c=>cont.appendChild(makeRow(c)));
-  const f=checks.filter(c=>!c.pass).length;
-  const el=document.getElementById('br-count');
-  el.textContent=f?f+' issue'+(f>1?'s':''):'All clear';
-  if(f)el.className='card-subtitle issues';
-  return checks.reduce((a,c)=>a+(c.weight||0),0);
+// ─── API checks render ────────────────────────────────────────────────────────
+function renderAPIChecks(checks){
+  const cont=document.getElementById('api-checks');cont.innerHTML='';checks.forEach(c=>cont.appendChild(makeRow(c)));
+  setCount('api-count',checks);
+  return checks.filter(c=>!c.loading).reduce((a,c)=>a+(c.weight||0),0);
 }
 
+// ─── Verdict ─────────────────────────────────────────────────────────────────
 function setVerdict(score){
   score=Math.min(score,100);
   const fill=document.getElementById('bar-fill');
   document.getElementById('score-num').textContent=score+'%';
   fill.style.width=score+'%';
   const badge=document.getElementById('verdict-badge');
-  const emoji=document.getElementById('v-emoji');
-  const label=document.getElementById('v-label');
-  const vscore=document.getElementById('v-score');
-  const cap=document.getElementById('score-caption');
   if(score>=60){
     fill.style.background='#ef4444';badge.className='verdict-badge robot';
-    emoji.textContent='🤖';label.textContent='Likely a Robot';
-    vscore.textContent=score+'% bot score';
-    cap.textContent='Multiple bot indicators detected on this connection.';
+    document.getElementById('v-emoji').textContent='🤖';
+    document.getElementById('v-label').textContent='Likely a Robot';
+    document.getElementById('v-score').textContent=score+'% bot score';
+    document.getElementById('score-caption').textContent='Multiple bot/proxy indicators detected on this connection.';
   }else if(score>=25){
     fill.style.background='#f59e0b';badge.className='verdict-badge suspicious';
-    emoji.textContent='🔍';label.textContent='Suspicious';
-    vscore.textContent=score+'% bot score';
-    cap.textContent='Datacenter or proxy IP — could be a bot, VPN, or remote browser.';
+    document.getElementById('v-emoji').textContent='🔍';
+    document.getElementById('v-label').textContent='Suspicious';
+    document.getElementById('v-score').textContent=score+'% bot score';
+    document.getElementById('score-caption').textContent='Datacenter, proxy, or flagged IP — could be a bot, VPN, or remote browser.';
   }else{
     fill.style.background='#22c55e';badge.className='verdict-badge human';
-    emoji.textContent='✅';label.textContent='Probably Human';
-    vscore.textContent=score+'% bot score';
-    cap.textContent='No significant bot indicators found.';
+    document.getElementById('v-emoji').textContent='✅';
+    document.getElementById('v-label').textContent='Probably Human';
+    document.getElementById('v-score').textContent=score+'% bot score';
+    document.getElementById('score-caption').textContent='No significant bot indicators found.';
   }
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 async function run(){
-  let ip=null,geo={};
+  // Step 1: get IP via ipapi.co
+  let ip=null, geo={};
   try{const r=await fetch('https://ipapi.co/json/');const d=await r.json();ip=d.ip;geo=d;}
   catch{try{const r=await fetch('https://api.ipify.org?format=json');const d=await r.json();ip=d.ip;}catch{}}
 
-  const ipEl=document.getElementById('ip-val');
-  ipEl.className='ip-value';ipEl.textContent=ip||'Unavailable';
-
+  // Update IP display
+  const ipEl=document.getElementById('ip-val');ipEl.className='ip-value';ipEl.textContent=ip||'Unavailable';
   const pillsEl=document.getElementById('ip-pills');pillsEl.innerHTML='';
-  const addPill=(icon,text,danger)=>{
-    const p=document.createElement('div');
-    p.className='pill'+(danger?' danger':'');
-    p.textContent=icon+' '+text;pillsEl.appendChild(p);
-  };
+  const addPill=(icon,text,cls)=>{const p=document.createElement('div');p.className='pill'+(cls?' '+cls:'');p.textContent=icon+' '+text;pillsEl.appendChild(p);};
   if(geo.country_name)addPill('🌍',geo.country_name+(geo.country_code?' ('+geo.country_code+')':''));
   if(geo.city)addPill('📍',geo.city);
   if(geo.org)addPill('🏢',geo.org);
-  if(!geo.country_name&&!geo.city&&!geo.org)addPill('ℹ️','Location unavailable');
 
+  // Run CIDR/ASN and browser checks immediately
   const matches=ip?matchRanges(ip):[];
-  const asnMatch=matchASN(geo.org||geo.asn_org||'');
+  const asnMatch=matchASN(geo.org||'');
+  const cidrScore=renderIPChecks(ip,matches,asnMatch);
+  const brChecks=getBrowserChecks();
+  const cont=document.getElementById('br-checks');cont.innerHTML='';brChecks.forEach(c=>cont.appendChild(makeRow(c)));
+  setCount('br-count',brChecks);
+  const brScore=brChecks.reduce((a,c)=>a+(c.weight||0),0);
 
-  // If ASN says Hetzner but no CIDR matched, still flag it
-  if(asnMatch){
-    // Add danger style to org pill
-    const orgPill=pillsEl.querySelector('.pill:last-child');
-    if(orgPill&&geo.org)orgPill.className='pill danger';
+  // Show placeholder API rows while loading
+  const placeholderChecks=[
+    {name:'Proxy / VPN detected',       pass:true, detail:'Querying ip-api.com…', loading:true, weight:0},
+    {name:'Hosting / Datacenter flag',  pass:true, detail:'Querying ip-api.com…', loading:true, weight:0},
+    {name:'Tor exit node',              pass:true, detail:'Querying ip-api.com…', loading:true, weight:0},
+    {name:'Mobile network',             pass:true, detail:'Querying ip-api.com…', loading:true, weight:0},
+    {name:'Abuse score',                pass:true, detail:'Querying ipwho.is…',   loading:true, weight:0},
+    {name:'Threat type',                pass:true, detail:'Querying ipwho.is…',   loading:true, weight:0},
+  ];
+  renderAPIChecks(placeholderChecks);
+  setVerdict(cidrScore+brScore);
+
+  // Step 2: ip-api.com — free, no key, returns proxy/vpn/hosting/tor flags
+  let ipapi={};
+  try{
+    // fields: status,proxy,hosting,tor,mobile,isp,org,as,query
+    const r=await fetch(`http://ip-api.com/json/${ip||''}?fields=status,proxy,hosting,tor,mobile,isp,org,as,query`);
+    ipapi=await r.json();
+  }catch(e){console.warn('ip-api.com failed',e);}
+
+  // Step 3: ipwho.is — free, no key, returns threat data
+  let ipwho={};
+  try{
+    const r=await fetch(`https://ipwho.is/${ip||''}`);
+    ipwho=await r.json();
+  }catch(e){console.warn('ipwho.is failed',e);}
+
+  // Build API check results
+  const isProxy   = ipapi.proxy===true;
+  const isHosting = ipapi.hosting===true;
+  const isTor     = ipapi.tor===true;
+  const isMobile  = ipapi.mobile===true;
+  const abuseScore= (ipwho.threat && typeof ipwho.threat.is_threat==='boolean') ? ipwho.threat : null;
+  const isThreat  = abuseScore?.is_threat===true;
+  const threatType= isThreat ? [
+    abuseScore.is_bogon?'bogon':'',
+    abuseScore.is_datacenter?'datacenter':'',
+    abuseScore.is_tor?'tor':'',
+    abuseScore.is_proxy?'proxy':'',
+    abuseScore.is_anonymous?'anonymous':'',
+    abuseScore.is_known_attacker?'known attacker':'',
+    abuseScore.is_known_abuser?'known abuser':'',
+    abuseScore.is_threat?'threat':'',
+    abuseScore.is_bogon?'bogon':'',
+  ].filter(Boolean).join(', ') : null;
+
+  const ipApiOk = ipapi.status==='success';
+  const ipwhoOk = ipwho.success===true||ipwho.ip!=null;
+
+  const apiChecks=[
+    {name:'Proxy / VPN Detected',      pass:!isProxy,   detail: ipApiOk?(isProxy?'Flagged as proxy/VPN by ip-api.com':'Not flagged as proxy/VPN'):'ip-api.com unavailable', weight:isProxy?35:0},
+    {name:'Hosting / Datacenter Flag', pass:!isHosting, detail: ipApiOk?(isHosting?'Flagged as hosting/datacenter by ip-api.com':'Not a hosting range'):'ip-api.com unavailable', weight:isHosting?30:0},
+    {name:'Tor Exit Node',             pass:!isTor,     detail: ipApiOk?(isTor?'Flagged as Tor exit by ip-api.com':'Not a Tor exit node'):'ip-api.com unavailable', weight:isTor?40:0},
+    {name:'Mobile Network',            pass:true,       detail: ipApiOk?(isMobile?'Mobile/cellular network':'Fixed-line / broadband'):'ip-api.com unavailable', weight:0},
+    {name:'Threat Intelligence',       pass:!isThreat,  detail: ipwhoOk?(isThreat?'Threat flagged: '+threatType:'No threat flags from ipwho.is'):'ipwho.is unavailable', weight:isThreat?35:0},
+    {name:'Bogon / Special-use IP',    pass:!(abuseScore?.is_bogon), detail: ipwhoOk?(abuseScore?.is_bogon?'Bogon/reserved IP range':'Not a bogon address'):'ipwho.is unavailable', weight:abuseScore?.is_bogon?25:0},
+  ];
+
+  // Update org pill color if flagged
+  if(isProxy||isHosting||isTor){
+    const orgPill=[...pillsEl.querySelectorAll('.pill')].find(p=>p.textContent.startsWith('🏢'));
+    if(orgPill)orgPill.className='pill danger';
   }
 
-  const s1=renderIPChecks(matches,asnMatch);
-  const s2=renderBrChecks();
-  setVerdict(s1+s2);
+  const apiScore=renderAPIChecks(apiChecks);
+  setVerdict(Math.min(cidrScore+brScore+apiScore,100));
 }
+
 run();
 </script>
 </body>
