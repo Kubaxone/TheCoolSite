@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Am I a Robot? — IP & Browser Check</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: #f5f6f8; color: #1a1d23; min-height: 100vh; }
+header { background: #fff; border-bottom: 1px solid #e4e6ea; padding: 0 24px; }
+.header-inner { max-width: 960px; margin: 0 auto; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-size: 17px; font-weight: 700; color: #1a1d23; letter-spacing: -0.3px; }
+.logo span { color: #2563eb; }
+.header-note { font-size: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+main { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
+.ip-hero { background: #fff; border: 1px solid #e4e6ea; border-radius: 12px; padding: 32px 36px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.ip-hero-label { font-size: 12px; font-weight: 600; color: #9ca3af; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 6px; }
+.ip-value { font-family: 'DM Mono', monospace; font-size: clamp(26px,4vw,38px); font-weight: 500; color: #1a1d23; letter-spacing: -0.5px; }
+.ip-value.loading { color: #d1d5db; }
+.ip-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+.verdict-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 160px; padding: 18px 28px; border-radius: 10px; text-align: center; flex-shrink: 0; }
+.verdict-badge.human  { background: #f0fdf4; border: 1.5px solid #86efac; }
+.verdict-badge.robot  { background: #fef2f2; border: 1.5px solid #fca5a5; }
+.verdict-badge.suspicious { background: #fffbeb; border: 1.5px solid #fcd34d; }
+.verdict-badge.loading-state { background: #f9fafb; border: 1.5px solid #e5e7eb; }
+.verdict-emoji { font-size: 32px; margin-bottom: 6px; }
+.verdict-label { font-size: 14px; font-weight: 700; }
+.verdict-badge.human .verdict-label  { color: #16a34a; }
+.verdict-badge.robot .verdict-label  { color: #dc2626; }
+.verdict-badge.suspicious .verdict-label { color: #d97706; }
+.verdict-badge.loading-state .verdict-label { color: #9ca3af; }
+.verdict-score { font-size: 12px; font-weight: 500; margin-top: 3px; opacity: 0.7; }
+.verdict-badge.human .verdict-score  { color: #16a34a; }
+.verdict-badge.robot .verdict-score  { color: #dc2626; }
+.verdict-badge.suspicious .verdict-score { color: #d97706; }
+.score-section { background: #fff; border: 1px solid #e4e6ea; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+.score-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.score-title { font-size: 13px; font-weight: 600; color: #374151; }
+.score-num { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: #6b7280; }
+.bar-track { height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.9s cubic-bezier(.4,0,.2,1), background 0.5s; width: 0%; background: #2563eb; }
+.score-caption { font-size: 12px; color: #9ca3af; margin-top: 6px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
+.card { background: #fff; border: 1px solid #e4e6ea; border-radius: 12px; overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 8px; }
+.card-header-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.icon-blue { background: #eff6ff; }
+.icon-purple { background: #f5f3ff; }
+.card-title { font-size: 14px; font-weight: 600; color: #1a1d23; }
+.card-subtitle { font-size: 11px; color: #9ca3af; margin-left: auto; }
+.check-list { padding: 4px 0; }
+.check-row { display: flex; align-items: center; gap: 12px; padding: 10px 20px; border-bottom: 1px solid #f9fafb; }
+.check-row:last-child { border-bottom: none; }
+.check-row:hover { background: #fafafa; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-pass { background: #22c55e; }
+.dot-fail { background: #ef4444; }
+.dot-warn { background: #f59e0b; }
+.check-info { flex: 1; min-width: 0; }
+.check-name { font-size: 13px; font-weight: 500; color: #374151; }
+.check-detail { font-size: 11.5px; color: #9ca3af; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.check-detail.fail { color: #f87171; }
+.check-detail.warn { color: #d97706; }
+.check-detail.pass { color: #22c55e; }
+.check-tag { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.3px; flex-shrink: 0; }
+.tag-pass { background: #f0fdf4; color: #16a34a; }
+.tag-fail { background: #fef2f2; color: #dc2626; }
+.tag-warn { background: #fffbeb; color: #d97706; }
+@keyframes shimmer { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+.shimmer { background: linear-gradient(90deg,#f3f4f6 25%,#e9ebee 50%,#f3f4f6 75%); background-size:800px 100%; animation:shimmer 1.4s infinite; border-radius:4px; height:14px; margin:4px 0; display:block; }
+footer { text-align:center; padding:24px; font-size:12px; color:#d1d5db; }
+footer strong { color:#9ca3af; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Am I a <span>Robot?</span></div>
+    <div class="header-note">🔒 No data sent — client-side only</div>
+  </div>
+</header>
+
+<main>
+  <div class="ip-hero">
+    <div class="ip-hero-left">
+      <div class="ip-hero-label">Your IP Address</div>
+      <div class="ip-value loading" id="ip-val">Detecting…</div>
+      <div class="ip-pills" id="ip-pills">
+        <span class="shimmer" style="width:90px;display:inline-block"></span>
+        <span class="shimmer" style="width:110px;display:inline-block"></span>
+        <span class="shimmer" style="width:80px;display:inline-block"></span>
+      </div>
+    </div>
+    <div class="verdict-badge loading-state" id="verdict-badge">
+      <div class="verdict-emoji" id="v-emoji">⏳</div>
+      <div class="verdict-label" id="v-label">Checking…</div>
+      <div class="verdict-score" id="v-score"></div>
+    </div>
+  </div>
+
+  <div class="score-section">
+    <div class="score-header">
+      <div class="score-title">Bot Probability Score</div>
+      <div class="score-num" id="score-num">—</div>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
+    <div class="score-caption" id="score-caption">Running checks…</div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon icon-blue">🌐</div>
+        <div class="card-title">IP Reputation</div>
+        <div class="card-subtitle" id="ip-count"></div>
+      </div>
+      <div class="check-list" id="ip-checks">
+        <div class="check-row"><span class="shimmer" style="width:100%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:80%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:90%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:70%"></span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon icon-purple">🖥️</div>
+        <div class="card-title">Browser Fingerprint</div>
+        <div class="card-subtitle" id="br-count"></div>
+      </div>
+      <div class="check-list" id="br-checks">
+        <div class="check-row"><span class="shimmer" style="width:100%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:80%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:90%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:70%"></span></div>
+        <div class="check-row"><span class="shimmer" style="width:85%"></span></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>All checks run in your browser. <strong>Nothing is sent to any server.</strong></footer>
+
+<script>
+const RANGES = [
+  {label:'Internet Archive',cidr:'207.241.224.0/20',type:'crawler'},
+  {label:'Internet Archive',cidr:'207.241.226.0/24',type:'crawler'},
+  {label:'Internet Archive',cidr:'208.70.25.0/24',type:'crawler'},
+  {label:'Discord Crawler',cidr:'35.196.132.0/24',type:'crawler'},
+  {label:'Discord Crawler',cidr:'104.196.0.0/16',type:'crawler'},
+  {label:'browser.lol EU',cidr:'185.220.101.0/24',type:'proxy'},
+  {label:'browser.lol EU',cidr:'185.220.100.0/24',type:'proxy'},
+  {label:'BT UK',cidr:'81.132.0.0/14',type:'isp'},
+  {label:'Virgin Media UK',cidr:'82.30.0.0/16',type:'isp'},
+  {label:'Sky UK',cidr:'86.133.0.0/16',type:'isp'},
+  {label:'UK Datacenter',cidr:'5.148.0.0/16',type:'dc'},
+  {label:'JANET UK Academic',cidr:'193.63.0.0/16',type:'academic'},
+  {label:'AWS us-east-1',cidr:'52.0.0.0/11',type:'cloud'},
+  {label:'AWS eu-west',cidr:'54.72.0.0/13',type:'cloud'},
+  {label:'Google Cloud',cidr:'34.0.0.0/9',type:'cloud'},
+  {label:'Google Cloud',cidr:'35.184.0.0/13',type:'cloud'},
+  {label:'Cloudflare',cidr:'104.16.0.0/12',type:'cdn'},
+  {label:'DigitalOcean',cidr:'167.99.0.0/16',type:'cloud'},
+  {label:'Linode/Akamai',cidr:'172.104.0.0/14',type:'cloud'},
+  {label:'Hetzner',cidr:'95.216.0.0/16',type:'cloud'},
+  {label:'OVH',cidr:'151.80.0.0/14',type:'cloud'},
+  {label:'Tor Network',cidr:'176.10.99.0/24',type:'anonymizer'},
+  {label:'Tor Network',cidr:'62.102.148.0/24',type:'anonymizer'},
+];
+function ipToInt(ip){return ip.split('.').reduce((a,o)=>(a<<8)+parseInt(o,10),0)>>>0;}
+function inCIDR(ip,cidr){try{const[r,b]=cidr.split('/');const mask=b==='32'?0xFFFFFFFF:(~0<<(32-+b))>>>0;return(ipToInt(ip)&mask)===(ipToInt(r)&mask);}catch{return false;}}
+function matchRanges(ip){if(!ip||ip.includes(':'))return[];return RANGES.filter(r=>inCIDR(ip,r.cidr));}
+
+function getBrowserChecks(){
+  const ua=navigator.userAgent||'';const res=[];
+  const headless=/HeadlessChrome|PhantomJS|SlimerJS|Playwright|Puppeteer/i.test(ua);
+  res.push({name:'Headless Browser',pass:!headless,detail:headless?(ua.match(/HeadlessChrome|PhantomJS|SlimerJS|Playwright|Puppeteer/i)?.[0]||'Detected'):'Not detected',weight:headless?40:0});
+  const botUA=/Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|ia_archiver|archive\.org_bot|Discordbot|Twitterbot|LinkedInBot|TelegramBot/i.test(ua);
+  const botName=ua.match(/Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|ia_archiver|archive\.org_bot|Discordbot|Twitterbot|LinkedInBot|TelegramBot/i)?.[0];
+  res.push({name:'Crawler User-Agent',pass:!botUA,detail:botUA?botName:'Standard browser UA',weight:botUA?50:0});
+  let webgl=false;try{const c=document.createElement('canvas');webgl=!!(c.getContext('webgl')||c.getContext('experimental-webgl'));}catch{}
+  res.push({name:'WebGL Support',pass:webgl,detail:webgl?'Supported':'Not available',weight:webgl?0:10});
+  const zeroScreen=window.screen.width===0||window.screen.height===0;
+  res.push({name:'Screen Resolution',pass:!zeroScreen,detail:zeroScreen?'0×0 (headless)':window.screen.width+'×'+window.screen.height,weight:zeroScreen?20:0});
+  const noPlugins=navigator.plugins.length===0;
+  res.push({name:'Browser Plugins',pass:!noPlugins,detail:noPlugins?'None (headless indicator)':navigator.plugins.length+' found',weight:noPlugins?8:0});
+  const noLang=!navigator.language;
+  res.push({name:'Language Setting',pass:!noLang,detail:noLang?'Not set':navigator.language,weight:noLang?5:0});
+  const isMobile=/Mobi|Android|iPhone/i.test(ua);const hasTouch='ontouchstart' in window||navigator.maxTouchPoints>0;const mismatch=isMobile&&!hasTouch;
+  res.push({name:'Touch Consistency',pass:!mismatch,detail:mismatch?'Mobile UA but no touch API':(isMobile?'Mobile + touch OK':'Desktop — normal'),weight:mismatch?15:0});
+  return res;
+}
+
+function makeRow(c){
+  const dot=c.pass?'dot-pass':(c.weight>=25?'dot-fail':'dot-warn');
+  const tag=c.pass?'tag-pass':(c.weight>=25?'tag-fail':'tag-warn');
+  const txt=c.pass?'PASS':(c.weight>=25?'FAIL':'WARN');
+  const dcls=c.pass?'pass':(c.weight>=25?'fail':'warn');
+  const div=document.createElement('div');div.className='check-row';
+  div.innerHTML=`<div class="status-dot ${dot}"></div><div class="check-info"><div class="check-name">${c.name}</div><div class="check-detail ${dcls}">${c.detail}</div></div><div class="check-tag ${tag}">${txt}</div>`;
+  return div;
+}
+
+function renderIPChecks(matches){
+  const checks=[
+    {name:'Blacklist Match',pass:matches.length===0,detail:matches.length?matches.map(m=>m.label).join(', '):'Not on any list',weight:matches.length*25},
+    {name:'Cloud / Datacenter',pass:!matches.some(m=>m.type==='cloud'||m.type==='dc'),detail:matches.filter(m=>m.type==='cloud'||m.type==='dc').map(m=>m.label).join(', ')||'Residential range',weight:matches.filter(m=>m.type==='cloud'||m.type==='dc').length*20},
+    {name:'Known Crawler IP',pass:!matches.some(m=>m.type==='crawler'),detail:matches.filter(m=>m.type==='crawler').map(m=>m.label).join(', ')||'No crawler range match',weight:matches.filter(m=>m.type==='crawler').length*35},
+    {name:'Proxy / Anonymizer',pass:!matches.some(m=>m.type==='proxy'||m.type==='anonymizer'),detail:matches.filter(m=>m.type==='proxy'||m.type==='anonymizer').map(m=>m.label).join(', ')||'No proxy IP detected',weight:matches.filter(m=>m.type==='proxy'||m.type==='anonymizer').length*30},
+  ];
+  const c=document.getElementById('ip-checks');c.innerHTML='';checks.forEach(ch=>c.appendChild(makeRow(ch)));
+  const f=checks.filter(ch=>!ch.pass).length;document.getElementById('ip-count').textContent=f?f+' issue'+(f>1?'s':''):'All clear';
+  return checks.reduce((a,ch)=>a+(ch.weight||0),0);
+}
+
+function renderBrChecks(){
+  const checks=getBrowserChecks();const c=document.getElementById('br-checks');c.innerHTML='';checks.forEach(ch=>c.appendChild(makeRow(ch)));
+  const f=checks.filter(ch=>!ch.pass).length;document.getElementById('br-count').textContent=f?f+' issue'+(f>1?'s':''):'All clear';
+  return checks.reduce((a,ch)=>a+(ch.weight||0),0);
+}
+
+function setVerdict(score){
+  score=Math.min(score,100);
+  const fill=document.getElementById('bar-fill');
+  document.getElementById('score-num').textContent=score+'%';
+  fill.style.width=score+'%';
+  const badge=document.getElementById('verdict-badge');
+  if(score>=60){fill.style.background='#ef4444';badge.className='verdict-badge robot';document.getElementById('v-emoji').textContent='🤖';document.getElementById('v-label').textContent='Likely a Robot';document.getElementById('v-score').textContent=score+'% bot score';document.getElementById('score-caption').textContent='Multiple bot indicators detected.';}
+  else if(score>=25){fill.style.background='#f59e0b';badge.className='verdict-badge suspicious';document.getElementById('v-emoji').textContent='🔍';document.getElementById('v-label').textContent='Suspicious';document.getElementById('v-score').textContent=score+'% bot score';document.getElementById('score-caption').textContent='Some indicators flagged — VPN, proxy, or cloud IP possible.';}
+  else{fill.style.background='#22c55e';badge.className='verdict-badge human';document.getElementById('v-emoji').textContent='✅';document.getElementById('v-label').textContent='Probably Human';document.getElementById('v-score').textContent=score+'% bot score';document.getElementById('score-caption').textContent='No significant bot indicators found.';}
+}
+
+async function run(){
+  let ip=null,geo={};
+  try{const r=await fetch('https://ipapi.co/json/');const d=await r.json();ip=d.ip;geo=d;}
+  catch{try{const r=await fetch('https://api.ipify.org?format=json');const d=await r.json();ip=d.ip;}catch{}}
+  const ipEl=document.getElementById('ip-val');ipEl.className='ip-value';ipEl.textContent=ip||'Unavailable';
+  const pillsEl=document.getElementById('ip-pills');pillsEl.innerHTML='';
+  const addPill=(icon,text)=>{const p=document.createElement('div');p.className='pill';p.textContent=icon+' '+text;pillsEl.appendChild(p);};
+  if(geo.country_name)addPill('🌍',geo.country_name+(geo.country_code?' ('+geo.country_code+')':''));
+  if(geo.city)addPill('📍',geo.city);
+  if(geo.org)addPill('🏢',geo.org);
+  if(!geo.country_name&&!geo.city&&!geo.org)addPill('ℹ️','Location unavailable');
+  const matches=ip?matchRanges(ip):[];
+  const s1=renderIPChecks(matches);const s2=renderBrChecks();setVerdict(s1+s2);
+}
+run();
+</script>
+</body>
+</html>
